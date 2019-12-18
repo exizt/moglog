@@ -1,0 +1,7 @@
+# trash files by os
+.DS_Store
+Thumbs.db
+
+# 
+/node_modules
+/vendor
