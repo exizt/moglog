@@ -1,12 +1,10 @@
-/*! =======================================================
- * Table of Contents
- *
- *       Repo : https://github.com/e2xist/jquery-sh-table-of-contents
- *    Version : 1.0.3
- *     Author : Hong seok-hoon (e2xist)
- *   Requires : 
- *   Modified : 2019-12
-======================================================= */
+/*! ===================
+ * Mogcha (Table of Contents library)
+ *     Repo : https://github.com/exizt/mogcha
+ *  Version : 1.0.6
+ *   Author : EXIZT
+ * Modified : 2019.12
+======================= */
 (function(){
 	class Mogcha {
 		constructor(options){
