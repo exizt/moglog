@@ -1,10 +1,10 @@
-jquery-sh-table-of-contents
+mogcha
 =================
-table of contents. index of contents. 
+generate Table Of Contents
 
 
 Links
 -------
-* git : https://github.com/exizt/table-of-contents-jquery
-* examples : https://exizt.github.io/table-of-contents-jquery/
+* git : https://github.com/exizt/mogcha
+* demo pages : https://exizt.github.io/mogcha/
 * website : 
