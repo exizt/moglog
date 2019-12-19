@@ -1,6 +1,6 @@
 {
   "name": "mogcha",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "",
   "devDependencies": {
     "@babel/cli": "^7.7.5",
@@ -14,7 +14,7 @@
     "build": "webpack"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "core-js": "^3.6.0"
   }
