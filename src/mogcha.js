@@ -16,14 +16,26 @@
 			this.contextTarget = (options.context) ? options.context : ''
 			// anchor 에 붙일 prefix
 			this.anchorNamePrefix = (options.anchorNamePrefix) ? options.anchorNamePrefix : ''
-			this.htags = "h1,h2,h3,h4,h5,h6"
 			this.prependHtml = (options.prependHtml) ? options.prependHtml : ''
+			this.tocIn = (options.tocIn) ? options.tocIn : ''
+			this.tocClassName = (options.tocClassName) ? options.tocClassName : 'toc'
+			this.htags = "h1,h2,h3,h4,h5,h6"
 		}
 
 		build(){
 			//console.log(this.tocTarget)
-			var toc = document.body.querySelector(this.tocTarget)
-			toc.innerHTML = "ddd"
+			if(this.tocIn != ''){
+				var tocInElement = document.body.querySelector(this.tocIn)
+				var toc = document.createElement("div")
+				toc.setAttribute("class", this.tocClassName)
+				tocInElement.prepend(toc)
+			} else {
+				var toc = document.body.querySelector(this.tocTarget)
+				if(this.tocClassName != ''){
+					toc.classList.add(this.tocClassName);
+				}
+			}
+			toc.innerHTML = "..."
 
 			// 콘텐츠 영역에서 h1~h6 을 읽어온다.
 			var sections  = document.body.querySelector(this.contextTarget).querySelectorAll("h1,h2,h3,h4")
