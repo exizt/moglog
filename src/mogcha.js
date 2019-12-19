@@ -2,7 +2,7 @@
  * Table of Contents
  *
  *       Repo : https://github.com/e2xist/jquery-sh-table-of-contents
- *    Version : 1.0.1
+ *    Version : 1.0.3
  *     Author : Hong seok-hoon (e2xist)
  *   Requires : 
  *   Modified : 2019-12
@@ -34,7 +34,8 @@
 			}
 			
 
-			sections.forEach((element,index) => {
+			Array.prototype.forEach.call(sections, (element,index) => { //ES5 style
+			//sections.forEach((element,index) => { // ES6 style
 				let tag = element.tagName
 
 				// 해당 구문
@@ -50,7 +51,8 @@
 				//anchor.setAttribute("href", "#")
 				//anchor.innerHTML = indexNum
 				//element.innerHTML = ""
-				element.prepend(anchor)
+				//element.prepend(anchor)
+				element.insertBefore(anchor, element.firstChild);
 
 				// tocTable 에 추가
 				let tocNode = {name: aname, section : index+1, level : parseInt(tag.slice(-1)), text : elText}

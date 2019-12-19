@@ -3,7 +3,7 @@ const path = require("path");
 module.exports = {
   entry: "./src/mogcha.js",
   output: {
-    filename: "mogcha.bundle.js",
+    filename: "mogcha.min.js",
     path: path.resolve(__dirname + "/dist")
   },
   module: {
