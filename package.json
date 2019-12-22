@@ -1,6 +1,6 @@
 {
   "name": "mogcha",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "devDependencies": {
     "@babel/cli": "^7.7.5",

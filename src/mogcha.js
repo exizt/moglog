@@ -24,7 +24,7 @@
 		}
 
 		log(msg = ''){
-			if(this.debug) console.log(msg)
+			if(this.debug) console.log(`[Mogcha console] ${msg}`)
 		}
 
 		build(){
