@@ -18,6 +18,12 @@
 			this.tocIn = (options.tocIn) ? options.tocIn : ''
 			this.tocClassName = (options.tocClassName) ? options.tocClassName : 'toc'
 			this.htags = "h1,h2,h3,h4,h5,h6"
+			// 로그 디버깅 옵션
+			this.debug = (options.debug) ? options.debug : false
+		}
+
+		log(msg = ''){
+			if(this.debug) console.log(msg)
 		}
 
 		build(){
@@ -29,6 +35,10 @@
 				tocInElement.prepend(toc)
 			} else {
 				var toc = document.body.querySelector(this.tocTarget)
+				if(!toc){
+					this.log("toc target not founded")
+					return false
+				} 
 				if(this.tocClassName != ''){
 					toc.classList.add(this.tocClassName);
 				}
