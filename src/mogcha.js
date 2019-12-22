@@ -12,6 +12,7 @@
 			this.tocTarget = (options.toc) ? options.toc : ''
 			// contents 를 읽어들일 selector
 			this.contextTarget = (options.context) ? options.context : ''
+
 			// anchor 에 붙일 prefix
 			this.anchorNamePrefix = (options.anchorNamePrefix) ? options.anchorNamePrefix : ''
 			this.prependHtml = (options.prependHtml) ? options.prependHtml : ''
@@ -46,7 +47,11 @@
 			toc.innerHTML = "..."
 
 			// 콘텐츠 영역에서 h1~h6 을 읽어온다.
-			var sections  = document.body.querySelector(this.contextTarget).querySelectorAll("h1,h2,h3,h4")
+			if(document.body.querySelector(this.contextTarget) != null){
+				var sections  = document.body.querySelector(this.contextTarget).querySelectorAll("h1,h2,h3,h4")
+			} else {
+				return false
+			}
 
 			// 목록
 			var tocTable = {
