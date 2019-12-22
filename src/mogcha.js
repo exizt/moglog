@@ -37,19 +37,20 @@
 			} else {
 				var toc = document.body.querySelector(this.tocTarget)
 				if(!toc){
-					this.log("toc target not founded")
+					this.log("toc target not found")
 					return false
 				} 
 				if(this.tocClassName != ''){
 					toc.classList.add(this.tocClassName);
 				}
 			}
-			toc.innerHTML = "..."
+			if(this.debug) toc.innerHTML = "..."
 
 			// 콘텐츠 영역에서 h1~h6 을 읽어온다.
 			if(document.body.querySelector(this.contextTarget) != null){
 				var sections  = document.body.querySelector(this.contextTarget).querySelectorAll("h1,h2,h3,h4")
 			} else {
+				this.log("context target not found")
 				return false
 			}
 
