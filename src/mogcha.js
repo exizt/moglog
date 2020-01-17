@@ -1,10 +1,10 @@
-/*! ===================
+/*! mogcha v1.0.9 https://github.com/exizt/mogcha */
+/*
  * Mogcha (Table of Contents library)
  *     Repo : https://github.com/exizt/mogcha
- *  Version : 1.0.6
  *   Author : EXIZT
- * Modified : 2019.12
-======================= */
+ * Modified : 2020.01
+*/
 (function(){
 	class Mogcha {
 		constructor(options){
@@ -17,7 +17,7 @@
 			this.anchorNamePrefix = (options.anchorNamePrefix) ? options.anchorNamePrefix : ''
 			this.prependHtml = (options.prependHtml) ? options.prependHtml : ''
 			this.tocIn = (options.tocIn) ? options.tocIn : ''
-			this.tocClassName = (options.tocClassName) ? options.tocClassName : 'toc'
+			this.tocClassName = (options.tocClassName) ? options.tocClassName : ''
 			this.htags = "h1,h2,h3,h4,h5,h6"
 			// 로그 디버깅 옵션
 			this.debug = (options.debug) ? options.debug : false
