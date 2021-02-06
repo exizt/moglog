@@ -26,8 +26,6 @@
     border-radius: 4px;
     padding: 9px;
 }
-</style>
-<style>
 .s-toc {
     border: 1px solid #aaa;
     background: #f9f9f9 none repeat scroll 0 0;
@@ -44,10 +42,16 @@
 <script>
     document.addEventListener("DOMContentLoaded",function(){
         var moglog = new Moglog({
-            targetIn:".context-container",
-            contents: "#contents-1",
+            target:".toc", 
             tocClassName: "s-toc",
-            prependHtml: "<h3>목차</h3>"
+            contents: "#context-1",
+            debug: true,
+            callback: function(items){
+                if(!items){
+                    document.body.querySelector(".toc-wrap").style.display = "none"
+                }
+                alert("callback")
+            }
         });
         moglog.build()
     });
@@ -57,31 +61,39 @@
     <div style="background-color:#628AC7;" class="p-5">
         <div class="container my-5">
             <h1 class="display-2">Moglog</h1>
-            <p class="lead">targetIn, tocClassName 예제</p>
+            <p class="lead">간단한 CSS 적용 예제 (with bootstrap)</p>
             <div>
                 <a href="../index.htm" class="btn btn-primary">Back</a>
             </div>
         </div>
     </div>
     <div class="container pt-3">
-        <h1 class="mb-3">targetIn, tocClassName 예제</h1>
-        <h2>Code</h2>
+        <h1>Code</h1>
 <pre>
 document.addEventListener("DOMContentLoaded",function(){
     var moglog = new Moglog({
-        targetIn:".context-container",
-        contents: "#contents-1",
+        toc:".toc", 
         tocClassName: "s-toc",
-        prependHtml: "&lt;h3&gt;목차&lt;h3&gt;"
+        context: "#context-2",
+        "callback": function(items){
+            if(!items){
+                document.body.querySelector(".toc-wrap").style.display = "none"
+            }
+            alert("callback")
+        }
     });
     moglog.build()
 });
 </pre>
         <hr>
-        <h2>Result</h2>
+        <div class="toc-wrap">
+            <h1>Result</h1>
+            <div class="toc">
+            </div>
+        </div>
         <div class="context-container">
             <h1 class="mt-5 ">Contents</h1>
-            <div class="contents" id="contents-1">
+            <div class="context" id="context-1">
                 <h1>아시아</h1>
                 <h2>동아시아</h2>
                 <h3>한국</h3>

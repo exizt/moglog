@@ -1,9 +1,9 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./src/mogcha.js",
+  entry: "./src/moglog.js",
   output: {
-    filename: "mogcha.min.js",
+    filename: "moglog.min.js",
     path: path.resolve(__dirname + "/dist")
   },
   module: {

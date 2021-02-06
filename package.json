@@ -1,6 +1,6 @@
 {
-  "name": "mogcha",
-  "version": "1.0.8",
+  "name": "moglog",
+  "version": "1.1.0",
   "description": "",
   "scripts": {
     "build": "webpack",
@@ -9,14 +9,14 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.8.4",
-    "@babel/preset-env": "^7.8.4",
-    "babel-loader": "^8.0.6",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10"
+    "@babel/cli": "^7.12.13",
+    "@babel/core": "^7.12.13",
+    "@babel/preset-env": "^7.12.13",
+    "babel-loader": "^8.2.2",
+    "webpack": "^5.21.1",
+    "webpack-cli": "^4.5.0"
   },
   "dependencies": {
-    "core-js": "^3.6.4"
+    "core-js": "^3.8.3"
   }
 }

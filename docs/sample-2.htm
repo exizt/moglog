@@ -2,9 +2,9 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<title>Mogcha - Simple Example</title>
+<title>Moglog - Simple Example</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="../dist/mogcha.min.js"></script>
+<script src="../dist/moglog.min.js"></script>
 <style>
 .result{ font-size: 0.5em; }
 .contents h1 { font-size: 2em; }
@@ -14,141 +14,122 @@
 .contents h5 { font-size: .83em; }
 .contents h6 { font-size: .75em; }
 .contents{
-	height: 550px;
-	overflow-y:scroll;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	padding: 9px;
+    height: 550px;
+    overflow-y:scroll;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 9px;
 }
 .container pre {
-	background-color: #f5f5f5;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	padding: 9px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 9px;
 }
-</style>
-<style>
 .toc {
-	border: 1px solid #aaa;
-	background: #f9f9f9 none repeat scroll 0 0;
-	border-radius: 0.5rem;
-	padding: 1rem 1rem;
+    border: 1px solid #aaa;
+    background: #f9f9f9 none repeat scroll 0 0;
+    border-radius: 0.5rem;
+    padding: 1rem 1rem;
 }
 .toc li, .toc ul, .toc ul li{
     list-style: outside none none !important;
 }
 .toc>ul{
-	padding-left: 15px;
+    padding-left: 15px;
 }
 </style>
 <script>
-	document.addEventListener("DOMContentLoaded",function(){
-		var mogcha = new Mogcha({
-			toc:".toc",
-			context: "#contents-1",
-			prependHtml: "<h3>Table of Contents</h3>"
-		});
-		mogcha.build()
-	});
+    document.addEventListener("DOMContentLoaded",function(){
+        var moglog = new Moglog({
+            target:".toc",
+            contents: "#contents-1",
+            prependHtml: "<h3>목차</h3>"
+        });
+        moglog.build()
+    });
 </script>
 </head>
 <body>
-	<div style="background-color:#628AC7;" class="p-5">
-		<a href="../index.htm" class="btn btn-primary">Back</a>
-		<div class="container my-5">
-			<h1 class="display-2">Mogcha</h1>
-			<p class="lead">간단한 CSS 적용 예제 (with bootstrap)</p>
-			<div>
-				<a href="https://github.com/exizt/mogcha" class="badge badge-secondary" target="_blank">Github</a>&nbsp;
-				<a href="https://chosim.asv.kr" class="badge badge-secondary" target="_blank">website</a>&nbsp;
-				<a href="https://e2xist.tistory.com" class="badge badge-secondary" target="_blank">Blog</a>&nbsp;
-			</div>
-		</div>
-	</div>
-	<div class="container pt-3">
-		<h1>Code</h1>
+    <div style="background-color:#628AC7;" class="p-5">
+        <div class="container my-5">
+            <h1 class="display-2">Moglog</h1>
+            <p class="lead">prependHtml 예제</p>
+            <div>
+                <a href="../index.htm" class="btn btn-primary">Back</a>
+            </div>
+        </div>
+    </div>
+    <div class="container pt-3">
+        <h1 class="mb-3">prependHtml 예제</h1>
+        <h2>Code</h2>
 <pre>
-// Javascript
 document.addEventListener("DOMContentLoaded",function(){
-	var mogcha = new Mogcha({
-		toc:".toc", 
-		context: "#contents-1",
-		prependHtml: "&lt;h3&gt;Table of Contents&lt;h3&gt;"
-	});
-	mogcha.build()
+    var moglog = new Moglog({
+        target:".toc",
+        contents: "#contents-1",
+        prependHtml: "&lt;h3&gt;목차&lt;h3&gt;"
+    });
+    moglog.build()
 });
-
-// css
-.toc {
-	border: 1px solid #aaa;
-	background: #f9f9f9 none repeat scroll 0 0;
-	border-radius: 0.5rem;
-	padding: 1rem 1rem;
-}
-.toc li, .toc ul, .toc ul li{
-    list-style: outside none none !important;
-}
-.toc>ul{
-	padding-left: 15px;
-}
 </pre>
-		<hr>
-		<h1>Result</h1>		
-		<div class="toc"></div>
-		<hr>
-		<h1 class="mt-5 ">Contents</h1>
-		<div class="contents" id="contents-1">
-			<h1>아시아</h1>
-			<h2>동아시아</h2>
-			<h3>한국</h3>
-			<h4>서울</h4>
-			<h5>종로구</h5>
-			<h6>혜화동</h6>
-			<h6>인사동</h6>
-			<h5>용산구</h5>
-			<h5>강남구</h5>
-			<h5>서대문구</h5>
-			<h4>경기도</h4>
-			<h4>강원도</h4>
-			<h4>충청도</h4>
-			<h4>경상도</h4>
-			<h4>전라도</h4>
-			<h4>제주도</h4>
-			<h5>제주시</h5>
-			<h6>삼도동</h6>
-			<h6>화북동</h6>
-			<h6>도두동</h6>
-			<h5>서귀포시</h5>
-			<h6>중문동</h6>
-			<h6>성산읍</h6>
-			<h3>중국</h3>
-			<h3>일본</h3>
-			<h2>동남아시아</h2>
-			<h2>중앙아시아</h2>
-			<h1>유럽</h1>
-			<h2>북유럽</h2>
-			<h3>노르웨이</h3>
-			<h3>스웨덴</h3>
-			<h3>덴마크</h3>
-			<h3>핀란드</h3>
-			<h2>서유럽</h2>
-			<h3>영국</h3>
-			<h3>프랑스</h3>
-			<h2>중유럽</h2>
-			<h2>남유럽</h2>
-			<h1>아메리카</h1>
-			<h2>북아메리카</h2>
-			<h2>중앙아메리카</h2>
-			<h2>남아메리카</h2>
-			<h1>아프리카</h1>
-			<h2>북아프리카</h2>
-			<h2>서아프리카</h2>
-			<h2>남아프리카</h2>
-			<h3>남아프리카 공화국</h3>
-			<h3>나미비아</h3>
-			<h1>오세아니아</h1>
-			<h2>폴리네시아</h2>
-		</div>
-	</div>
+        <hr>
+        <h2>결과</h2>
+        <div class="toc"></div>
+        <hr>
+        <h1 class="mt-5 ">Contents</h1>
+        <div class="contents" id="contents-1">
+            <h1>아시아</h1>
+            <h2>동아시아</h2>
+            <h3>한국</h3>
+            <h4>서울</h4>
+            <h5>종로구</h5>
+            <h6>혜화동</h6>
+            <h6>인사동</h6>
+            <h5>용산구</h5>
+            <h5>강남구</h5>
+            <h5>서대문구</h5>
+            <h4>경기도</h4>
+            <h4>강원도</h4>
+            <h4>충청도</h4>
+            <h4>경상도</h4>
+            <h4>전라도</h4>
+            <h4>제주도</h4>
+            <h5>제주시</h5>
+            <h6>삼도동</h6>
+            <h6>화북동</h6>
+            <h6>도두동</h6>
+            <h5>서귀포시</h5>
+            <h6>중문동</h6>
+            <h6>성산읍</h6>
+            <h3>중국</h3>
+            <h3>일본</h3>
+            <h2>동남아시아</h2>
+            <h2>중앙아시아</h2>
+            <h1>유럽</h1>
+            <h2>북유럽</h2>
+            <h3>노르웨이</h3>
+            <h3>스웨덴</h3>
+            <h3>덴마크</h3>
+            <h3>핀란드</h3>
+            <h2>서유럽</h2>
+            <h3>영국</h3>
+            <h3>프랑스</h3>
+            <h2>중유럽</h2>
+            <h2>남유럽</h2>
+            <h1>아메리카</h1>
+            <h2>북아메리카</h2>
+            <h2>중앙아메리카</h2>
+            <h2>남아메리카</h2>
+            <h1>아프리카</h1>
+            <h2>북아프리카</h2>
+            <h2>서아프리카</h2>
+            <h2>남아프리카</h2>
+            <h3>남아프리카 공화국</h3>
+            <h3>나미비아</h3>
+            <h1>오세아니아</h1>
+            <h2>폴리네시아</h2>
+        </div>
+    </div>
 </body>
 </html>
