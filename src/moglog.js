@@ -1,7 +1,7 @@
 /*! 
  * Moglog v1.1.0
  * 
- *  License : MIT
+ * Licensed under MIT
  *      Git : https://github.com/exizt/moglog
  *   Author : EXIZT
  * Modified : 2021.02
