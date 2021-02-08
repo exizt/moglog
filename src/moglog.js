@@ -1,5 +1,5 @@
 /*! 
- * Moglog v1.1.0
+ * Moglog v1.1.1
  * 
  * Licensed under MIT
  *      Git : https://github.com/exizt/moglog

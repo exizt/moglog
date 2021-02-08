@@ -1,6 +1,7 @@
 const path = require("path");
 
 module.exports = {
+  target: ['web', 'es5'],
   entry: "./src/moglog.js",
   output: {
     filename: "moglog.min.js",
