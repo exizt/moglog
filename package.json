@@ -1,6 +1,6 @@
 {
   "name": "moglog",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "",
   "scripts": {
     "build": "webpack",
@@ -9,14 +9,14 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "^7.12.13",
-    "@babel/core": "^7.12.13",
-    "@babel/preset-env": "^7.12.13",
+    "@babel/cli": "^7.14.5",
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
     "babel-loader": "^8.2.2",
-    "webpack": "^5.21.1",
-    "webpack-cli": "^4.5.0"
+    "webpack": "^5.40.0",
+    "webpack-cli": "^4.7.2"
   },
   "dependencies": {
-    "core-js": "^3.8.3"
+    "core-js": "^3.15.1"
   }
 }
