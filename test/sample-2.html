@@ -3,79 +3,45 @@
 <head>
 <meta charset="utf-8">
 <title>Moglog - Simple Example</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="../dist/moglog.min.js"></script>
-<style>
-.result{ font-size: 0.5em; }
-.contents h1 { font-size: 2em; }
-.contents h2 { font-size: 1.5em; }
-.contents h3 { font-size: 1.17em; }
-.contents h4 { font-size: 1.12em; }
-.contents h5 { font-size: .83em; }
-.contents h6 { font-size: .75em; }
-.contents{
-    height: 550px;
-    overflow-y:scroll;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 9px;
-}
-.container pre {
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 9px;
-}
-.toc {
-    border: 1px solid #aaa;
-    background: #f9f9f9 none repeat scroll 0 0;
-    border-radius: 0.5rem;
-    padding: 1rem 1rem;
-}
-.toc li, .toc ul, .toc ul li{
-    list-style: outside none none !important;
-}
-.toc>ul{
-    padding-left: 15px;
-}
-</style>
+<link rel="stylesheet" href="../src/moglog.css">
+<link rel="stylesheet" href="../assets/index.css">
+<script src="../dist/moglog.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded",function(){
         var moglog = new Moglog({
-            target:".toc",
+            toc:".toc-container",
             contents: "#contents-1",
-            prependHtml: "<h3>목차</h3>"
+            header: "<h3>목차</h3>"
         });
         moglog.build()
     });
 </script>
 </head>
 <body>
-    <div style="background-color:#628AC7;" class="p-5">
-        <div class="container my-5">
-            <h1 class="display-2">Moglog</h1>
-            <p class="lead">prependHtml 예제</p>
+    <div class="head-container-wrap">
+        <div class="container">
+            <h1>Moglog</h1>
             <div>
-                <a href="../index.htm" class="btn btn-primary">Back</a>
+                <a href="../index.html" class="btn btn-primary">Back</a>
             </div>
         </div>
     </div>
     <div class="container pt-3">
-        <h1 class="mb-3">prependHtml 예제</h1>
+        <h1 class="mb-3">상단에 html 추가 예제</h1>
         <h2>Code</h2>
 <pre>
 document.addEventListener("DOMContentLoaded",function(){
     var moglog = new Moglog({
-        target:".toc",
+        toc:".toc",
         contents: "#contents-1",
-        prependHtml: "&lt;h3&gt;목차&lt;h3&gt;"
+        header: "&lt;h3&gt;목차&lt;h3&gt;"
     });
     moglog.build()
 });
 </pre>
         <hr>
         <h2>결과</h2>
-        <div class="toc"></div>
+        <div class="toc-container"></div>
         <hr>
         <h1 class="mt-5 ">Contents</h1>
         <div class="contents" id="contents-1">

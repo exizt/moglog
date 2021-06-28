@@ -18,15 +18,15 @@ MIT License
 
 
 # Options
-| name             | type     | description |
-| :---             | :---     | :---        |
-| target           | string   | 목차가 들어갈 곳의 Selector |
-| contents         | string   | 읽어들일 곳의 Selector |
-| targetIn         | string   | `target`대신에 특정 영역의 상단에 자동으로 붙게할 경우 |
-| anchorNamePrefix | string   | . |
-| tocClassName     | string   | 생성된 목차를 둘러싸는 부분에 추가할 필요가 있는 class명 (기본값: `empty string`)  |
-| debug            | boolean  | 디버깅 옵션 (기본값: `false`) |
-| prependHtml      | string   | 목차의 앞부분에 붙일 필요가 있는 html (기본값: `empty string`) |
-| callback         | function | 목차 생성후 실행될 함수 (기본값: `null`) |
+| name       | type     | default   | description |
+| :---       | :---     | :---:     |:---        |
+| toc        | string   | ''        | 목차가 들어갈 곳의 Selector |
+| tocIn      | string   | 'replace' | (`replace`,`prepend`,`append`중 하나) `toc`옵션의 selector 영역에서 어디에 위치할 것인지. replace - 덮어씀/prepend - 앞부분에 추가/append - 뒷부분에 추가 |
+| tocClass   | string   | ''        | 생성된 목차를 둘러싸는 부분에 추가할 필요가 있는 class명 |
+| contents   | string   | ''        | 읽어들일 곳의 Selector |
+| linkPrefix | string   | ''        | . |
+| header     | string   | ''        | 목차의 앞부분에 붙일 필요가 있는 html |
+| callback   | function | null      | 목차 생성후 실행될 함수 |
+| isDebug    | boolean  | false     | 디버깅 옵션 |
 
 
