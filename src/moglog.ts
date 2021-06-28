@@ -35,8 +35,7 @@ class Moglog {
      * @param {json} options 
      */
     constructor(options: IMoglogOptions) {
-        let opts = options || {}
-        opts = { ...this._defaultOptions, ...opts }
+        let opts = { ...this._defaultOptions, ...options }
 
         // toc 를 생성할 selector
         this.tocTarget = (opts.toc) ? opts.toc : this._defaultOptions.toc
@@ -219,18 +218,15 @@ class Moglog {
      * @returns 
      */
     private repeatString(text: string, times: number) {
-        if(!String.prototype.repeat) {
-            // es5
-            let repeatedString = "";
-            while (times > 0) {
-                repeatedString += text;
-                times--;
-            }
-            return repeatedString;
-        } else {
-            // es6 next
-            return text.repeat(times)
+        // es5
+        let repeatedString = "";
+        while (times > 0) {
+            repeatedString += text;
+            times--;
         }
+        return repeatedString;
+        // es6 next
+        // return text.repeat(times)
     }
 
     /**

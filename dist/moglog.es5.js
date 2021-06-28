@@ -11,7 +11,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 /**
- * Moglog v2.0.1
+ * Moglog v2.0.2
  *
  * License : MIT
  *     Git : https://github.com/exizt/moglog
@@ -36,8 +36,7 @@ var Moglog = /** @class */ (function () {
             isDebug: false,
             callback: null
         };
-        var opts = options || {};
-        opts = __assign(__assign({}, this._defaultOptions), opts);
+        var opts = __assign(__assign({}, this._defaultOptions), options);
         // toc 를 생성할 selector
         this.tocTarget = (opts.toc) ? opts.toc : this._defaultOptions.toc;
         // toc 을 생성할 selector
@@ -200,19 +199,15 @@ var Moglog = /** @class */ (function () {
      * @returns
      */
     Moglog.prototype.repeatString = function (text, times) {
-        if (!String.prototype.repeat) {
-            // es5
-            var repeatedString = "";
-            while (times > 0) {
-                repeatedString += text;
-                times--;
-            }
-            return repeatedString;
+        // es5
+        var repeatedString = "";
+        while (times > 0) {
+            repeatedString += text;
+            times--;
         }
-        else {
-            // es6 next
-            return text.repeat(times);
-        }
+        return repeatedString;
+        // es6 next
+        // return text.repeat(times)
     };
     /**
      * es5와 es6에 대응하기 위한 append 메소드
