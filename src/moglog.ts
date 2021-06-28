@@ -1,5 +1,5 @@
 /**
- * Moglog v2.0.2
+ * Moglog v2.0.3
  * 
  * License : MIT
  *     Git : https://github.com/exizt/moglog
