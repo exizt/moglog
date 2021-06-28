@@ -11,7 +11,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 /**
- * Moglog v2.0.2
+ * Moglog v2.0.3
  *
  * License : MIT
  *     Git : https://github.com/exizt/moglog
