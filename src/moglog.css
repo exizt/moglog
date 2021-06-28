@@ -1,0 +1,26 @@
+/* toc */
+.s-toc {
+    border: 1px solid #aaa;
+    background: #f9f9f9 none repeat scroll 0 0;
+    border-radius: 0.5em;
+    padding: 1em 1em;
+    margin: 0.5em 0;
+    color: #555;
+}
+.s-toc li, .s-toc ul, .s-toc ul li{
+    list-style: outside none none !important;
+}
+.s-toc ul{
+    padding-left: 1.5em;
+}
+.s-toc>ul{
+    padding-left: 1em;
+}
+.s-toc a{
+    text-decoration: none;
+    color: #007bff;
+}
+.s-toc a:hover{
+    text-decoration: underline;
+    color: #0056b3;
+}

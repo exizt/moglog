@@ -3,44 +3,13 @@
 <head>
 <meta charset="utf-8">
 <title>Moglog - Simple Example</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet" href="../src/moglog.css">
+<link rel="stylesheet" href="../assets/index.css">
 <script src="../dist/moglog.min.js"></script>
-<style>
-.result{ font-size: 0.5em; }
-.contents h1 { font-size: 2em; }
-.contents h2 { font-size: 1.5em; }
-.contents h3 { font-size: 1.17em; }
-.contents h4 { font-size: 1.12em; }
-.contents h5 { font-size: .83em; }
-.contents h6 { font-size: .75em; }
-.contents{
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 9px;
-}
-.container pre {
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 9px;
-}
-.toc {
-	border: 1px solid #aaa;
-	background: #f9f9f9 none repeat scroll 0 0;
-	border-radius: 0.5rem;
-	padding: 1rem 1rem;
-}
-.toc li, .toc ul, .toc ul li{
-    list-style: outside none none !important;
-}
-.toc>ul{
-	padding-left: 15px;
-}
-</style>
 <script>
     document.addEventListener("DOMContentLoaded",function(){
         var moglog = new Moglog({
-            target:".toc",
+            toc:".toc-container",
             contents: "#contents-1"
         })
         moglog.build()
@@ -48,12 +17,11 @@
 </script>
 </head>
 <body>
-    <div style="background-color:#628AC7;" class="py-5">
-        <div class="container my-5">
-            <h1 class="display-2">Moglog</h1>
-            <p class="lead">간단한 예제</p>
+    <div class="head-container-wrap">
+        <div class="container">
+            <h1>Moglog</h1>
             <div>
-                <a href="../index.htm" class="btn btn-primary">Back</a>
+                <a href="../index.html" class="btn btn-primary">Back</a>
             </div>
         </div>
     </div>
@@ -62,14 +30,14 @@
         <h2>Code</h2>
 <pre>document.addEventListener("DOMContentLoaded",function(){
     var moglog = new Moglog({
-        target:".toc",
+        toc:".toc-container",
         contents: "#contents-1"
     });
     moglog.build()
 });</pre>
         <hr>
         <h2>결과</h2>
-        <div class="toc">
+        <div class="toc-container">
         </div>
         <hr>
         <h1 class="mt-5 ">본문</h1>
