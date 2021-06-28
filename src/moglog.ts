@@ -1,5 +1,5 @@
 /**
- * Moglog v2.0.1
+ * Moglog v2.0.2
  * 
  * License : MIT
  *     Git : https://github.com/exizt/moglog
@@ -100,15 +100,18 @@ class Moglog {
 
         // tocIn 옵션에 따른 조금 다른 처리
         if (this.tocIn == "prepend") {
-            tocContainer.insertAdjacentElement('afterbegin', toc)
+            this.prependEl(tocContainer, toc)
+            //tocContainer.insertAdjacentElement('afterbegin', toc)
             // tocContainer.prepend(toc)
         } else if (this.tocIn == "append") {
-            tocContainer.appendChild(toc)
+            this.appendEl(tocContainer, toc)
+            // tocContainer.appendChild(toc)
             // tocContainer.append(toc)
         } else {
             tocContainer.innerHTML = ""
+            this.appendEl(tocContainer, toc)
             // tocContainer.prepend(toc)
-            tocContainer.appendChild(toc)
+            //tocContainer.appendChild(toc)
         }
 
         // 과정을 살펴보기 위해서 도중에 '...'을 삽입
@@ -131,6 +134,7 @@ class Moglog {
 
         Array.prototype.forEach.call(sections, (element, index) => { //ES5 style
             //sections.forEach((element,index) => { // ES6 style
+
             let tag = element.tagName
 
             // 해당 구문
@@ -140,25 +144,19 @@ class Moglog {
             let aname = this.anchorNamePrefix + elText + "-" + index
 
             // 컨텍스트 영역의 각 section 에 anchor 를 생성한다.
-            let anchor = document.createElement("span")
-            //anchor.setAttribute("name",aname)
-            anchor.setAttribute("id", aname)
-            //anchor.setAttribute("href", "#")
-            //anchor.innerHTML = indexNum
-            //element.innerHTML = ""
-            //element.prepend(anchor)
-            element.insertBefore(anchor, element.firstChild);
+            let contentAnchor = document.createElement("span")
+            contentAnchor.setAttribute("id", aname)
+            this.prependEl(element, contentAnchor)
 
             // tocTable 에 추가
             let tocNode = { name: aname, section: index + 1, level: parseInt(tag.slice(-1)), text: elText }
             tocItems.push(tocNode)
-
-            //console.log(element)
         });
 
-        //toc.innerHTML = `<ul>${tocString}</ul>`
-        //console.log(this.buildTocString(tocItems))
+        // html 생성
         toc.innerHTML = this.prependHtml + this.buildTocString(tocItems)
+
+        // callback 호출
         this.callback(tocItems)
     }
 
@@ -192,14 +190,12 @@ class Moglog {
             })
 
             let str = `<a href="#${el.name}"><span class="tocnumber">${numbering}</span> <span class="toctext">${el.text}</span></a>`
-            //var str = `<a href="#${el.name}">${numbering} ${el.text}</a>` //simple
 
             if (beforeLev < lev) {
                 // 하위 단계로 넘어갈 때
                 str = `<ul><li>${str}`
             } else if (beforeLev > lev) {
                 // 직전보다 상위 단계일 때
-                // str = '</li>' + '</ul>'.repeat(beforeLev - lev) + `<li>${str}`
                 str = '</li>' + this.repeatString('</ul>', (beforeLev - lev)) + `<li>${str}`
             } else if (i == 0) {
                 str = `<li>${str}`
@@ -223,15 +219,43 @@ class Moglog {
      * @returns 
      */
     private repeatString(text: string, times: number) {
-        var repeatedString = "";
-        while (times > 0) {
-            repeatedString += text;
-            times--;
+        if(!String.prototype.repeat) {
+            // es5
+            let repeatedString = "";
+            while (times > 0) {
+                repeatedString += text;
+                times--;
+            }
+            return repeatedString;
+        } else {
+            // es6 next
+            return text.repeat(times)
         }
-        return repeatedString;
     }
 
+    /**
+     * es5와 es6에 대응하기 위한 append 메소드
+     * @param parent parent element
+     * @param child child element will insert
+     */
+    private appendEl(parent:any, child:any){
+        parent.insertAdjacentElement('beforeend', child)
+        // parent.appendChild(child)
+        // parent.append(child) // es6 
+    }
+
+    /**
+     * es5와 es6에 대응하기 위한 prepend 메소드
+     * @param parent 
+     * @param child 
+     */
+    private prependEl(parent:any, child:any){
+        parent.insertAdjacentElement('afterbegin', child)
+        // parent.prepend(child) //es6
+        // parent.insertBefore(child, parent.firstChild) //
+    }
 }
+
 interface IMoglogOptions {
     toc: string;
     tocIn: string;
