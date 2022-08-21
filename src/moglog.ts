@@ -5,11 +5,14 @@
  *     Git : https://github.com/exizt/moglog
  *  Author : EXIzT
  */
-class Moglog {
+export class Moglog {
+    // toc가 생성될 selector
     private tocTarget: string
+    // headings 태그와 분문을 읽어들일 타겟 selector. 여기에 링크가 넘어갈 태그도 생성됨.
     private contextTarget: string
     private anchorNamePrefix: string
-    private prependHtml: string
+    // toc 위에 생성시킬 html
+    private headHtml: string
     private tocIn: string
     private tocClassName: string
     private htags: string
@@ -41,36 +44,28 @@ class Moglog {
         this.tocTarget = (opts.toc) ? opts.toc : this._defaultOptions.toc
 
         // toc 을 생성할 selector
-        this.tocIn = (opts.tocIn) ? opts.tocIn : this._defaultOptions.tocIn
+        this.tocIn = (opts.tocIn) ? opts.tocIn : this._defaultOptions.tocIn!
 
         // contents 를 읽어들일 selector
         this.contextTarget = (opts.contents) ? opts.contents : this._defaultOptions.contents
 
         // anchor 에 붙일 prefix
-        this.anchorNamePrefix = (opts.linkPrefix) ? opts.linkPrefix : this._defaultOptions.linkPrefix
+        this.anchorNamePrefix = (opts.linkPrefix) ? opts.linkPrefix : this._defaultOptions.linkPrefix!
 
         // 앞부분에 붙일 html
-        this.prependHtml = (opts.header) ? opts.header : this._defaultOptions.header
+        this.headHtml = (opts.header) ? opts.header : this._defaultOptions.header!
 
         // toc에 붙일 class명
-        this.tocClassName = (opts.tocClass) ? opts.tocClass : this._defaultOptions.tocClass
+        this.tocClassName = (opts.tocClass) ? opts.tocClass : this._defaultOptions.tocClass!
 
         // 사용할 h태그 옵션
-        this.htags = (opts.htags) ? opts.htags : this._defaultOptions.htags
+        this.htags = (opts.htags) ? opts.htags : this._defaultOptions.htags!
 
         // 로그 디버깅 옵션
-        this._isDebug = (opts.isDebug === true) ? opts.isDebug : false
+        this._isDebug = (opts.isDebug === true) ? true : false
 
         // callback 옵션
         this._callback = (typeof opts.callback === 'function') ? opts.callback : {}
-    }
-
-    /**
-     * 디버깅 로그
-     * @param {string} msg 
-     */
-    private log(msg?: string) {
-        if (this._isDebug) console.log(`[Moglog console] ${msg}`)
     }
 
     /**
@@ -88,9 +83,9 @@ class Moglog {
      */
     build() {
         //console.log(this.tocTarget)
-        let tocContainer = document.body.querySelector(this.tocTarget)
+        let tocContainer = document.querySelector(this.tocTarget) as HTMLElement
         if (!tocContainer) {
-            this.log("toc target not found")
+            this.debugLog("toc target not found")
             this.callback(false)
             return false
         }
@@ -99,61 +94,62 @@ class Moglog {
 
         // tocIn 옵션에 따른 조금 다른 처리
         if (this.tocIn == "prepend") {
-            this.prependEl(tocContainer, toc)
+            this.prependElement(tocContainer, toc)
             //tocContainer.insertAdjacentElement('afterbegin', toc)
             // tocContainer.prepend(toc)
         } else if (this.tocIn == "append") {
-            this.appendEl(tocContainer, toc)
+            this.appendElement(tocContainer, toc)
             // tocContainer.appendChild(toc)
             // tocContainer.append(toc)
         } else {
             tocContainer.innerHTML = ""
-            this.appendEl(tocContainer, toc)
+            this.appendElement(tocContainer, toc)
             // tocContainer.prepend(toc)
             //tocContainer.appendChild(toc)
         }
 
         // 과정을 살펴보기 위해서 도중에 '...'을 삽입
-        if (this._isDebug) toc.innerHTML = "..."
+        if (this._isDebug) {
+            toc.innerHTML = "..."
+        }
 
         // 콘텐츠 영역에서 h1~h6 을 읽어온다.
         let sections
-        let contextEl = document.body.querySelector(this.contextTarget)
+        let contextEl = document.querySelector(this.contextTarget)
         if (contextEl != null) {
             // sections = contextEl.querySelectorAll("h1,h2,h3,h4,h5,h6")
             sections = contextEl.querySelectorAll(this.htags)
         } else {
-            this.log("context target not found")
+            this.debugLog("context target not found")
             this.callback(false)
             return false
         }
 
-        // 목록
+        // 목록 오브젝트 생성
         let tocItems: IMoglogItems[] = []
+        //Array.prototype.forEach.call(sections, (element, index) => { //ES5 style
+        sections.forEach((_el,i) => { // ES6 style
+            const el = _el as HTMLElement
 
-        Array.prototype.forEach.call(sections, (element, index) => { //ES5 style
-            //sections.forEach((element,index) => { // ES6 style
-
-            let tag = element.tagName
+            // let tag = element.tagName
+            const level = parseInt(el.tagName.slice(-1))
 
             // 해당 구문
-            let elText = element.innerText
-
-            // anchor 에 사용할 이름
-            let aname = this.anchorNamePrefix + elText + "-" + index
+            const title = el.innerText // 제목들
+            const a_name = this.anchorNamePrefix + title + "-" + i // anchor 에 사용할 이름
 
             // 컨텍스트 영역의 각 section 에 anchor 를 생성한다.
-            let contentAnchor = document.createElement("span")
-            contentAnchor.setAttribute("id", aname)
-            this.prependEl(element, contentAnchor)
+            const contentAnchor = document.createElement("span")
+            contentAnchor.setAttribute("id", a_name)
+            this.prependElement(el, contentAnchor)
 
             // tocTable 에 추가
-            let tocNode = { name: aname, section: index + 1, level: parseInt(tag.slice(-1)), text: elText }
+            const tocNode = { aname: a_name, section: i + 1, level: level, text: title }
             tocItems.push(tocNode)
         });
 
         // html 생성
-        toc.innerHTML = this.prependHtml + this.buildTocString(tocItems)
+        toc.innerHTML = this.headHtml + this.buildTocHTMLText(tocItems)
 
         // callback 호출
         this.callback(tocItems)
@@ -164,38 +160,39 @@ class Moglog {
      * 
      * @param {object}} tocTable 
      */
-    buildTocString(tocItems: IMoglogItems[]) {
+    buildTocHTMLText(tocItems: IMoglogItems[]) {
         //console.log(tocTable)
         let currentCountings = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         let beforeLev = 1
         let res = ''
         tocItems.forEach((el, i) => {
-            let lev = el.level
-            if (beforeLev > lev) {
+            const curLevel = el.level
+            if (beforeLev > curLevel) {
                 currentCountings.forEach((_item, index) => {
-                    if (index > lev) {
+                    if (index > curLevel) {
                         currentCountings[index] = 0
                     }
                 })
             }
-            currentCountings[lev]++
+            currentCountings[curLevel]++
 
             // 숫자 만들기
             let numbering = ''
             currentCountings.forEach((item, index) => {
-                if (index <= lev && index != 0) {
+                if (index <= curLevel && index != 0) {
                     numbering += item + "."
                 }
             })
 
-            let str = `<a href="#${el.name}"><span class="tocnumber">${numbering}</span> <span class="toctext">${el.text}</span></a>`
+            let str = `<a href="#${el.aname}"><span class="tocnumber">${numbering}</span> <span class="toctext">${el.text}</span></a>`
 
-            if (beforeLev < lev) {
+            if (beforeLev < curLevel) {
                 // 하위 단계로 넘어갈 때
                 str = `<ul><li>${str}`
-            } else if (beforeLev > lev) {
+            } else if (beforeLev > curLevel) {
                 // 직전보다 상위 단계일 때
-                str = '</li>' + this.repeatString('</ul>', (beforeLev - lev)) + `<li>${str}`
+                // str = '</li>' + this.repeatString('</ul>', (beforeLev - lev)) + `<li>${str}`
+                str = '</li>' + '</ul>'.repeat(beforeLev - curLevel) + `<li>${str}`
             } else if (i == 0) {
                 str = `<li>${str}`
             } else {
@@ -203,30 +200,25 @@ class Moglog {
             }
             res += str
 
-            beforeLev = lev
+            beforeLev = curLevel
         })
         if (tocItems.length > 0) {
             res = '<ul>' + res + '</ul>'
         }
         return res
     }
-
+    
     /**
-     * string.repeat 의 es5 에 해당하는 단순한 polyfill
-     * @param string 
-     * @param times 
-     * @returns 
+     * es5와 es6에 대응하기 위한 prepend 메소드
+     * @param parent 
+     * @param child 
      */
-    private repeatString(text: string, times: number) {
-        // es5
-        let repeatedString = "";
-        while (times > 0) {
-            repeatedString += text;
-            times--;
+    private prependElement(parent?:HTMLElement, child?:HTMLElement){
+        if(!!child){
+            parent?.insertAdjacentElement('afterbegin', child)
         }
-        return repeatedString;
-        // es6 next
-        // return text.repeat(times)
+        // parent.prepend(child) //es6
+        // parent.insertBefore(child, parent.firstChild) //
     }
 
     /**
@@ -234,37 +226,43 @@ class Moglog {
      * @param parent parent element
      * @param child child element will insert
      */
-    private appendEl(parent:any, child:any){
-        parent.insertAdjacentElement('beforeend', child)
+    private appendElement(parent?:HTMLElement, child?:HTMLElement){
+        if(!!child){
+            parent?.insertAdjacentElement('beforeend', child)
+        }
         // parent.appendChild(child)
         // parent.append(child) // es6 
     }
-
+    
     /**
-     * es5와 es6에 대응하기 위한 prepend 메소드
-     * @param parent 
-     * @param child 
+     * 디버깅 로그
+     * @param msg 디버깅 로그
      */
-    private prependEl(parent:any, child:any){
-        parent.insertAdjacentElement('afterbegin', child)
-        // parent.prepend(child) //es6
-        // parent.insertBefore(child, parent.firstChild) //
+     private debugLog(msg?: any) {
+        if (this._isDebug) {
+            const tag = '[exizt.toc]'
+            if(typeof msg === 'object'){
+                console.log(tag + ' %o', msg)
+            } else {
+                console.log(tag, msg)
+            }
+        }
     }
 }
 
 interface IMoglogOptions {
     toc: string;
-    tocIn: string;
-    tocClass: string;
+    tocIn?: string;
+    tocClass?: string;
     contents: string;
-    htags: string;
-    linkPrefix: string;
-    header: string;
-    callback: any;
-    isDebug: boolean;
+    htags?: string;
+    linkPrefix?: string;
+    header?: string;
+    callback?: any;
+    isDebug?: boolean;
 }
 interface IMoglogItems {
-    name: string;
+    aname: string;
     section: number;
     level: number;
     text: string;
