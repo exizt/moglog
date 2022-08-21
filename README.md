@@ -42,7 +42,7 @@ MIT License
 
 
 # Options
-| name       | type     | default   | description |
+| 옵션명      | 유형     | 기본값    | 설명        |
 | :---       | :---     | :---:     |:---        |
 | toc        | string   | ''        | 목차가 들어갈 곳의 Selector |
 | tocIn      | string   | 'replace' | (`replace`,`prepend`,`append`중 하나) `toc`옵션의 selector 영역에서 어디에 위치할 것인지. replace - 덮어씀/prepend - 앞부분에 추가/append - 뒷부분에 추가 |
