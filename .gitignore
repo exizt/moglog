@@ -1,10 +1,10 @@
-# trash files by os
+# OS 기타 파일들
 .DS_Store
 Thumbs.db
 
-# 
+# 패키징 관련
 /node_modules
 /vendor
 
-#
-/dist/moglog.js
+# 프로젝트 관련
+
