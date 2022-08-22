@@ -1,2 +1,2 @@
-import './moglog.css'
+import './css/moglog.css'
 export { Moglog } from './moglog'

@@ -1,0 +1,30 @@
+@charset "UTF-8";
+.moglog-toc {
+    border: 1px solid #aaa;
+    background: #f9f9f9 none repeat scroll 0 0;
+    border-radius: 0.5rem;
+    padding: 1rem 1rem;
+    margin: 0.5rem 0;
+    color: #555;
+    box-sizing: border-box;
+    ul {
+        padding-left: 1.5em;
+    }
+    /* 목록의 전체 영역의 ul */
+    > ul {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    a {
+        text-decoration: none;
+        color: #007bff;
+    }
+    a:hover {
+        text-decoration: underline;
+        color: #0056b3;
+    }
+    & li, & ul, & ul li {
+        list-style: outside none none !important;
+        box-sizing: inherit;    
+    }
+}
