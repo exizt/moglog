@@ -12,62 +12,65 @@ export class Moglog {
     private contextTarget: string
     // toc 위에 생성시킬 html
     private headHtml: string
-    // 사용할 htags
+    // 사용할 htags에 대한 selector
     private htags: string
     // toc이 tocTarget 내부에서 위치할 장소
     private tocPosition: string
+    // toc element에 붙는 class 명
     private tocClassName: string
+    // 링크에 붙일 prefix
     private anchorNamePrefix: string
-    private _isDebug: boolean
-    private _callback: any
-
-    private _defaultOptions: IMoglogOptions = {
+    // callback 옵션
+    private callbackFunction: Function|null = null
+    // 로그 디버깅 옵션
+    private isDebug: boolean = false
+    // 기본 옵션값
+    private readonly _defaultOptions: IMoglogOptions = {
         toc: '',
-        position: 'top',
-        tocClass: 's-toc',
         contents: '',
-        linkPrefix: '',
         header: '',
         htags: 'h1,h2,h3,h4,h5,h6',
-        isDebug: false,
-        callback: null
+        position: 'top',
+        tocClass: 'moglog-toc',
+        linkPrefix: ''
     }
 
     /**
      * 생성자
-     * 
-     * 옵션값을 대입
-     * @param {json} options 
+     * @param options 
      */
     constructor(options: IMoglogOptions) {
-        let opts = { ...this._defaultOptions, ...options }
+        /**
+         * 옵션 셋팅
+         */
+        // merge
+        const opts = { ...this._defaultOptions, ...options }
+        // 옵션값들의 유효성 확인 및 유효성 벗어날 경우 기본값으로 재지정
+        opts.toc = (typeof opts.toc === 'string') ? opts.toc : this._defaultOptions.toc
+        opts.contents = (typeof opts.contents === 'string') ? opts.contents : this._defaultOptions.contents
+        opts.header = (typeof opts.header === 'string') ? opts.header : this._defaultOptions.header
+        opts.htags = (typeof opts.htags === 'string') ? opts.htags : this._defaultOptions.htags
+        opts.position = (typeof opts.position === 'string') ? opts.position : this._defaultOptions.position
+        opts.tocClass = (typeof opts.tocClass === 'string') ? opts.tocClass : this._defaultOptions.tocClass
+        opts.linkPrefix = (typeof opts.linkPrefix === 'string') ? opts.linkPrefix : this._defaultOptions.linkPrefix
+        opts.callback = (typeof opts.callback === 'function') ? opts.callback : null
+        opts.isDebug = (!!opts.isDebug) ? true : false
 
-        // toc 를 생성할 selector
-        this.tocTarget = (opts.toc) ? opts.toc : this._defaultOptions.toc
+        // 옵션값을 멤버에 지정
+        this.tocTarget = opts.toc
+        this.contextTarget = opts.contents!
+        this.headHtml = opts.header!
+        this.htags = opts.htags!
+        this.tocPosition = opts.position!
+        this.tocClassName = opts.tocClass!
+        this.anchorNamePrefix = opts.linkPrefix!
+        this.callbackFunction = opts.callback!
+        this.isDebug = opts.isDebug!
 
-        // toc 을 생성할 selector
-        this.tocPosition = (opts.position) ? opts.position : this._defaultOptions.position!
-
-        // contents 를 읽어들일 selector
-        this.contextTarget = (opts.contents) ? opts.contents : this._defaultOptions.contents
-
-        // anchor 에 붙일 prefix
-        this.anchorNamePrefix = (opts.linkPrefix) ? opts.linkPrefix : this._defaultOptions.linkPrefix!
-
-        // 앞부분에 붙일 html
-        this.headHtml = (opts.header) ? opts.header : this._defaultOptions.header!
-
-        // toc에 붙일 class명
-        this.tocClassName = (opts.tocClass) ? opts.tocClass : this._defaultOptions.tocClass!
-
-        // 사용할 h태그 옵션
-        this.htags = (opts.htags) ? opts.htags : this._defaultOptions.htags!
-
-        // 로그 디버깅 옵션
-        this._isDebug = (opts.isDebug === true) ? true : false
-
-        // callback 옵션
-        this._callback = (typeof opts.callback === 'function') ? opts.callback : {}
+        // contents 옵션이 아예 없었던 경우는, toc과 같은 엘리먼트일 것으로 가정한다.
+        if(typeof options.contents === 'undefined'){
+            this.contextTarget = this.tocTarget
+        }
     }
 
     /**
@@ -75,8 +78,8 @@ export class Moglog {
      * @param {object} args 
      */
     callback(args: any) {
-        if (typeof this._callback === "function") {
-            this._callback(args)
+        if (typeof this.callbackFunction === "function") {
+            this.callbackFunction(args)
         }
     }
 
@@ -94,39 +97,23 @@ export class Moglog {
      */
     buildHtml() {
         //console.log(this.tocTarget)
+        
+        ///// toc을 생성할 container 탐색
         const tocContainer = document.querySelector(this.tocTarget) as HTMLElement
         if (!tocContainer) {
-            ///// toc이 생성될 요소가 없을 때 중지
+            ///// toc이 생성될 엘리먼트가 없으므로 중지
             this.debugLog("toc target not found")
             this.callback(false)
             return false
         }
-        // toc을 생성할 div 엘리먼트 생성
-        let toc = document.createElement("div")
-        toc.setAttribute("class", this.tocClassName)
 
-        // tocPosition 옵션에 따른 조금 다른 처리
-        if (this.tocPosition == "append" || this.tocPosition == "bottom" || this.tocPosition == "after") {
-            this.appendElement(tocContainer, toc)
-        } else if (this.tocPosition == "replace") {
-            tocContainer.innerHTML = ""
-            this.appendElement(tocContainer, toc)
-        } else if (this.tocPosition == "prepend" || this.tocPosition == "top" || this.tocPosition == "before") {
-            this.prependElement(tocContainer, toc)
-        } else {
-            this.debugLog("position option is not set.")
-            this.callback(false)
-            return false
-        }
-
-        // 과정을 살펴보기 위해서 도중에 '...'을 삽입
-        if (this._isDebug) {
-            toc.innerHTML = "..."
-        }
-
+        /*
+        * context에서 h 태그를 탐색하고, 링크를 받을 수 있도록 span 태그로 id를 지정함
+        */
         // context 영역
         const contextContainer = document.querySelector(this.contextTarget)
         if(!contextContainer){
+            ///// context를 탐색할 엘리먼트가 없으므로 중지
             this.debugLog("context target not found")
             this.callback(false)
             return false
@@ -156,7 +143,37 @@ export class Moglog {
             // tocTable 에 추가
             const tocNode = { aname: a_name, section: i + 1, level: level, text: title }
             tocItems.push(tocNode)
-        });
+        })
+
+        // headings 태그 요소가 없으므로, 생성하지 않고 리턴
+        if(tocItems.length == 0){
+            this.debugLog("headings not found")
+            this.callback(tocItems)
+            return false
+        }
+
+        // toc을 생성할 div 엘리먼트 생성
+        let toc = document.createElement("div")
+        toc.setAttribute("class", this.tocClassName)
+
+        // tocPosition 옵션에 따른 조금 다른 처리
+        if (this.tocPosition == "append" || this.tocPosition == "bottom" || this.tocPosition == "after") {
+            this.appendElement(tocContainer, toc)
+        } else if (this.tocPosition == "replace") {
+            tocContainer.innerHTML = ""
+            this.appendElement(tocContainer, toc)
+        } else if (this.tocPosition == "prepend" || this.tocPosition == "top" || this.tocPosition == "before") {
+            this.prependElement(tocContainer, toc)
+        } else {
+            this.debugLog("position option is not set.")
+            this.callback(false)
+            return false
+        }
+
+        // 과정을 살펴보기 위해서 도중에 '...'을 삽입
+        if (this.isDebug) {
+            toc.innerHTML = "..."
+        }
 
         // html 생성
         toc.innerHTML = this.headHtml + this.buildTocHTMLText(tocItems)
@@ -170,15 +187,15 @@ export class Moglog {
      * 
      * @param {object}} tocTable 
      */
-    buildTocHTMLText(tocItems: IMoglogItems[]) {
+    buildTocHTMLText(_items: IMoglogItems[]) {
         //console.log(tocTable)
         let currentCountings = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         let beforeLev = 1
         let res = ''
-        tocItems.forEach((el, i) => {
+        _items.forEach((el, i) => {
             const curLevel = el.level
             if (beforeLev > curLevel) {
-                currentCountings.forEach((_item, index) => {
+                currentCountings.forEach((_, index) => {
                     if (index > curLevel) {
                         currentCountings[index] = 0
                     }
@@ -212,7 +229,7 @@ export class Moglog {
 
             beforeLev = curLevel
         })
-        if (tocItems.length > 0) {
+        if (_items.length > 0) {
             res = '<ul>' + res + '</ul>'
         }
         return res
@@ -248,8 +265,8 @@ export class Moglog {
      * 디버깅 로그
      * @param msg 디버깅 로그
      */
-     private debugLog(msg?: any) {
-        if (this._isDebug) {
+     private debugLog(msg: any) {
+        if (this.isDebug) {
             const tag = '[exizt.toc]'
             if(typeof msg === 'object'){
                 console.log(tag + ' %o', msg)
@@ -262,13 +279,13 @@ export class Moglog {
 
 interface IMoglogOptions {
     toc: string;
-    contents: string;
+    contents?: string;
+    header?: string;
+    htags?: string;
     position?: string;
     tocClass?: string;
-    htags?: string;
     linkPrefix?: string;
-    header?: string;
-    callback?: any;
+    callback?: Function|null;
     isDebug?: boolean;
 }
 interface IMoglogItems {
