@@ -1,7 +1,19 @@
 {
-  "name": "exizt.toc",
+  "name": "exizt.moglog",
   "version": "3.0.17",
   "description": "",
+  "author": "exizt",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/exizt/moglog.git"
+  },
+  "homepage": "https://exizt.github.io/moglog/",
+  "main": "dist/moglog.js",
+  "types": "dist/moglog.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "npm run tsc & npm run webpack",
     "tsc": "tsc ./src/moglog.ts --outDir ./dist --target es2016 --declaration --removeComments",
@@ -9,8 +21,6 @@
     "webpack.dev": "npx webpack --mode development",
     "minify": "npx uglifyjs ./dist/moglog.js --output ./dist/moglog.min.js --mangle"
   },
-  "author": "exizt",
-  "license": "MIT",
   "devDependencies": {
     "css-loader": "^6.7.1",
     "shx": "^0.3.4",
