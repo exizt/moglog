@@ -1,25 +1,49 @@
 const path = require("path");
 
 module.exports = {
-  target: ['web', 'es5'],
-  entry: "./src/moglog.js",
+  target: ['web', 'es2020'],
+  entry: {
+    'toc': path.resolve(__dirname, 'src/index.js')
+  },
   output: {
-    filename: "moglog.min.js",
-    path: path.resolve(__dirname + "/dist")
+    filename: '[name].mix.js',
+    path: path.resolve(__dirname, 'dist'),
+    library: {
+      type: 'module'
+    },
+  },
+  experiments: {
+    outputModule: true,
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.ts$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
-          options: {
-            configFile: './.babelrc'
-          }
+          loader: 'ts-loader',
         }
-      }
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
     ]
   },
-  mode: "production"
+  optimization: {
+    minimizer: [
+      (compiler) => {
+        const TerserPlugin = require('terser-webpack-plugin');
+        new TerserPlugin({
+          terserOptions: {
+            keep_classnames: true,
+          },
+        }).apply(compiler);
+      },
+    ],
+  },
+  resolve: {
+    modules: [path.resolve(__dirname, "src")], // 모듈 위치
+    extensions: [".ts", ".js"]
+  }
 };

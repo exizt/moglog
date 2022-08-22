@@ -3,9 +3,10 @@
   "version": "2.0.3",
   "description": "",
   "scripts": {
-    "build": "npm run tsc & npm run minify",
-    "tsc": "tsc",
-    "tsc.t": "tsc ./src/moglog.ts --outDir ./dist --target es2016 --declaration --removeComments",
+    "build": "npm run tsc & npm run webpack",
+    "tsc": "tsc ./src/moglog.ts --outDir ./dist --target es2016 --declaration --removeComments",
+    "webpack": "npx webpack --mode production",
+    "webpack.dev": "npx webpack --mode development",
     "minify": "npx uglifyjs ./dist/moglog.js --output ./dist/moglog.min.js --mangle"
   },
   "author": "exizt",
