@@ -36,6 +36,7 @@
   <hr>
   <div class="container">
     <h1 class="mb-3 main-title">간단한 예제</h1>
+    <p>컨텐트영역과 toc영역이 다른 경우</p>
     <h2>Code</h2>
 <pre>const moglog = new Moglog({
   toc:"#toc",
@@ -56,6 +57,57 @@ moglog.build()
     </script>
     <div id="toc_first">
     </div>
+  </div>
+  <hr>
+  <div class="container">
+    <h1 class="mb-3 main-title">컨텐트영역과 toc영역이 동일한 경우</h1>
+    <p>컨텐트영역과 toc영역이 동일한 경우. <code>content</code>옵션을 넣지 않는다. 
+      <br><code>position</code>옵션으로 위치를 조정할 수도 있다. <code>position:bottom</code>옵션을 사용하면 하단에 위치하게 할 수도 있다.</p>
+    <h2>Code</h2>
+<pre>const moglog = new Moglog({
+  toc:"#content"
+});
+moglog.build()
+</pre>
+    <h2>결과</h2>
+    <script type="module">
+      import { Moglog } from './dist/moglog.js';
+      (()=>{
+        const moglog = new Moglog({
+          toc: "#content_toc"
+        })
+        moglog.build()
+      })()
+    </script>
+    <div id="content_toc" class="content">
+      <h1>A</h1>
+      <h1>B</h1>
+    </div>
+    <br>
+    <h2>하단에 위치시킬 때</h2>
+    <h2>Code</h2>
+    <pre>const moglog = new Moglog({
+  toc:"#content",
+  position: "bottom"
+});
+moglog.build()
+</pre>
+    <h2>결과</h2>
+    <script type="module">
+      import { Moglog } from './dist/moglog.js';
+      (()=>{
+        const moglog = new Moglog({
+          toc: "#content_toc_bottom",
+          position: "bottom"
+        })
+        moglog.build()
+      })()
+    </script>
+    <div id="content_toc_bottom" class="content">
+      <h1>A</h1>
+      <h1>B</h1>
+    </div>
+
   </div>
   <hr>
   <div class="container">
@@ -118,13 +170,13 @@ moglog.build()
   contents: "#content",
   callback: (items) => {
     if(items){
-      let html = 'output: '
+      let text = 'output: '
       items.forEach((el, i) => {
-        html += `${el.text}, `
+        text += `${el.text}, `
       })
-      document.querySelector("#toc_callback_output").innerHTML = html
+      document.querySelector("#toc_callback_output").textContent = text
     } else {
-      document.querySelector("#toc_callback_output").innerHTML = "결과가 없음"
+      document.querySelector("#toc_callback_output").textContent = "결과가 없음"
     }
   }
 })
@@ -139,13 +191,13 @@ moglog.build()
           contents: "#content",
           callback: (items) => {
             if(items){
-              let html = 'output: '
+              let text = 'output: '
               items.forEach((el, i) => {
-                html += `${el.text}, `
+                text += `${el.text}, `
               })
-              document.querySelector("#toc_callback_output").innerHTML = html
+              document.querySelector("#toc_callback_output").textContent = text
             } else {
-              document.querySelector("#toc_callback_output").innerHTML = "결과가 없음"
+              document.querySelector("#toc_callback_output").textContent = "결과가 없음"
             }
           }
         })
