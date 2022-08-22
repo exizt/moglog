@@ -1,30 +1,42 @@
 export class Moglog {
     constructor(options) {
+        this.callbackFunction = null;
+        this.isDebug = false;
         this._defaultOptions = {
             toc: '',
-            position: 'top',
-            tocClass: 's-toc',
             contents: '',
-            linkPrefix: '',
             header: '',
             htags: 'h1,h2,h3,h4,h5,h6',
-            isDebug: false,
-            callback: null
+            position: 'top',
+            tocClass: 'moglog-toc',
+            linkPrefix: ''
         };
-        let opts = Object.assign(Object.assign({}, this._defaultOptions), options);
-        this.tocTarget = (opts.toc) ? opts.toc : this._defaultOptions.toc;
-        this.tocPosition = (opts.position) ? opts.position : this._defaultOptions.position;
-        this.contextTarget = (opts.contents) ? opts.contents : this._defaultOptions.contents;
-        this.anchorNamePrefix = (opts.linkPrefix) ? opts.linkPrefix : this._defaultOptions.linkPrefix;
-        this.headHtml = (opts.header) ? opts.header : this._defaultOptions.header;
-        this.tocClassName = (opts.tocClass) ? opts.tocClass : this._defaultOptions.tocClass;
-        this.htags = (opts.htags) ? opts.htags : this._defaultOptions.htags;
-        this._isDebug = (opts.isDebug === true) ? true : false;
-        this._callback = (typeof opts.callback === 'function') ? opts.callback : {};
+        const opts = Object.assign(Object.assign({}, this._defaultOptions), options);
+        opts.toc = (typeof opts.toc === 'string') ? opts.toc : this._defaultOptions.toc;
+        opts.contents = (typeof opts.contents === 'string') ? opts.contents : this._defaultOptions.contents;
+        opts.header = (typeof opts.header === 'string') ? opts.header : this._defaultOptions.header;
+        opts.htags = (typeof opts.htags === 'string') ? opts.htags : this._defaultOptions.htags;
+        opts.position = (typeof opts.position === 'string') ? opts.position : this._defaultOptions.position;
+        opts.tocClass = (typeof opts.tocClass === 'string') ? opts.tocClass : this._defaultOptions.tocClass;
+        opts.linkPrefix = (typeof opts.linkPrefix === 'string') ? opts.linkPrefix : this._defaultOptions.linkPrefix;
+        opts.callback = (typeof opts.callback === 'function') ? opts.callback : null;
+        opts.isDebug = (!!opts.isDebug) ? true : false;
+        this.tocTarget = opts.toc;
+        this.contextTarget = opts.contents;
+        this.headHtml = opts.header;
+        this.htags = opts.htags;
+        this.tocPosition = opts.position;
+        this.tocClassName = opts.tocClass;
+        this.anchorNamePrefix = opts.linkPrefix;
+        this.callbackFunction = opts.callback;
+        this.isDebug = opts.isDebug;
+        if (typeof options.contents === 'undefined') {
+            this.contextTarget = this.tocTarget;
+        }
     }
     callback(args) {
-        if (typeof this._callback === "function") {
-            this._callback(args);
+        if (typeof this.callbackFunction === "function") {
+            this.callbackFunction(args);
         }
     }
     build() {
@@ -38,26 +50,6 @@ export class Moglog {
             this.debugLog("toc target not found");
             this.callback(false);
             return false;
-        }
-        let toc = document.createElement("div");
-        toc.setAttribute("class", this.tocClassName);
-        if (this.tocPosition == "append" || this.tocPosition == "bottom" || this.tocPosition == "after") {
-            this.appendElement(tocContainer, toc);
-        }
-        else if (this.tocPosition == "replace") {
-            tocContainer.innerHTML = "";
-            this.appendElement(tocContainer, toc);
-        }
-        else if (this.tocPosition == "prepend" || this.tocPosition == "top" || this.tocPosition == "before") {
-            this.prependElement(tocContainer, toc);
-        }
-        else {
-            this.debugLog("position option is not set.");
-            this.callback(false);
-            return false;
-        }
-        if (this._isDebug) {
-            toc.innerHTML = "...";
         }
         const contextContainer = document.querySelector(this.contextTarget);
         if (!contextContainer) {
@@ -78,17 +70,42 @@ export class Moglog {
             const tocNode = { aname: a_name, section: i + 1, level: level, text: title };
             tocItems.push(tocNode);
         });
+        if (tocItems.length == 0) {
+            this.debugLog("headings not found");
+            this.callback(tocItems);
+            return false;
+        }
+        let toc = document.createElement("div");
+        toc.setAttribute("class", this.tocClassName);
+        if (this.tocPosition == "append" || this.tocPosition == "bottom" || this.tocPosition == "after") {
+            this.appendElement(tocContainer, toc);
+        }
+        else if (this.tocPosition == "replace") {
+            tocContainer.innerHTML = "";
+            this.appendElement(tocContainer, toc);
+        }
+        else if (this.tocPosition == "prepend" || this.tocPosition == "top" || this.tocPosition == "before") {
+            this.prependElement(tocContainer, toc);
+        }
+        else {
+            this.debugLog("position option is not set.");
+            this.callback(false);
+            return false;
+        }
+        if (this.isDebug) {
+            toc.innerHTML = "...";
+        }
         toc.innerHTML = this.headHtml + this.buildTocHTMLText(tocItems);
         this.callback(tocItems);
     }
-    buildTocHTMLText(tocItems) {
+    buildTocHTMLText(_items) {
         let currentCountings = [0, 0, 0, 0, 0, 0, 0, 0, 0];
         let beforeLev = 1;
         let res = '';
-        tocItems.forEach((el, i) => {
+        _items.forEach((el, i) => {
             const curLevel = el.level;
             if (beforeLev > curLevel) {
-                currentCountings.forEach((_item, index) => {
+                currentCountings.forEach((_, index) => {
                     if (index > curLevel) {
                         currentCountings[index] = 0;
                     }
@@ -117,7 +134,7 @@ export class Moglog {
             res += str;
             beforeLev = curLevel;
         });
-        if (tocItems.length > 0) {
+        if (_items.length > 0) {
             res = '<ul>' + res + '</ul>';
         }
         return res;
@@ -133,7 +150,7 @@ export class Moglog {
         }
     }
     debugLog(msg) {
-        if (this._isDebug) {
+        if (this.isDebug) {
             const tag = '[exizt.toc]';
             if (typeof msg === 'object') {
                 console.log(tag + ' %o', msg);

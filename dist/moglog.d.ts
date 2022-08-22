@@ -6,27 +6,27 @@ export declare class Moglog {
     private tocPosition;
     private tocClassName;
     private anchorNamePrefix;
-    private _isDebug;
-    private _callback;
-    private _defaultOptions;
+    private callbackFunction;
+    private isDebug;
+    private readonly _defaultOptions;
     constructor(options: IMoglogOptions);
     callback(args: any): void;
     build(): void;
     buildHtml(): boolean;
-    buildTocHTMLText(tocItems: IMoglogItems[]): string;
+    buildTocHTMLText(_items: IMoglogItems[]): string;
     private prependElement;
     private appendElement;
     private debugLog;
 }
 interface IMoglogOptions {
     toc: string;
-    contents: string;
+    contents?: string;
+    header?: string;
+    htags?: string;
     position?: string;
     tocClass?: string;
-    htags?: string;
     linkPrefix?: string;
-    header?: string;
-    callback?: any;
+    callback?: Function | null;
     isDebug?: boolean;
 }
 interface IMoglogItems {
