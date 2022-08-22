@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <title>Moglog - Table of Contents</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="../assets/page-common.css">
+  <link rel="stylesheet" href="../src/moglog.css">
+</head>
+
+<body>
+  <div style="background-color:#628AC7;" class="py-5 mb-5">
+    <div class="container my-5">
+      <h1 class="display-2">TOC</h1>
+      <p class="small">Bootstrap 4 연동 테스트</p>
+    </div>
+  </div>
+  <div class="container">
+    <h1 class="mb-3">간단한 예제</h1>
+    <h2>Code</h2>
+    <pre>&lt;script type="module"&gt;
+  import { Moglog } from '../dist/moglog.js';
+  document.addEventListener("DOMContentLoaded", () => {
+    const moglog = new Moglog({
+      toc: "#toc_first",
+      contents: "#content"
+    })
+    moglog.build()
+  });
+&lt;/script&gt;</pre>
+    <h2>결과</h2>
+    <script type="module">
+      import { Moglog } from '../dist/moglog.js';
+      document.addEventListener("DOMContentLoaded", () => {
+        const moglog = new Moglog({
+          toc: "#toc_first",
+          contents: "#content"
+        })
+        moglog.build()
+      });
+    </script>
+    <div id="toc_first">
+    </div>
+  </div>
+  <hr>
+  <div class="container">
+    <div class="content" id="content">
+      <h1>생물</h1>
+      <p>생물...</p>
+      <h2>동물</h2>
+      <h3>물고기</h3>
+      <p>...</p>
+      <h3>새</h3>
+      <h3>포유류</h3>
+      <h2>식물</h2>
+      <h3>나무</h3>
+      <h3>풀</h3>
+    </div>
+  </div>
+</body>
+
+</html>

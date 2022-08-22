@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <title>Moglog - Simple Example</title>
+  <link rel="stylesheet" href="../assets/index.css">
+  <link rel="stylesheet" href="../assets/page-common.css">
+  <link rel="stylesheet" href="../src/moglog.css">
+</head>
+
+<body>
+  <div class="head-container-wrap">
+    <div class="container">
+      <h1>TOC</h1>
+      <p>toc.mix.js (css+js compiled) 테스트</p>
+    </div>
+  </div>
+  <div class="container">
+    <h1>Code</h1>
+    <pre>&lt;script type="module"&gt;
+  import { Moglog } from '../dist/moglog.js';
+  document.addEventListener("DOMContentLoaded", () => {
+    const moglog = new Moglog({
+      toc: "#toc_first",
+      contents: "#content"
+    })
+    moglog.build()
+  });
+&lt;/script&gt;</pre>
+    <script type="module">
+      import { Moglog } from '../dist/toc.mix.js';
+      document.addEventListener("DOMContentLoaded", () => {
+        const moglog = new Moglog({
+          toc: "#toc_first",
+          contents: "#content"
+        })
+        moglog.build()
+      });
+    </script>
+    <div id="toc_first">
+    </div>
+  </div>
+  <div class="container">
+    <div class="content" id="content">
+      <h1>생물</h1>
+      <p>생물...</p>
+      <h2>동물</h2>
+      <h3>물고기</h3>
+      <p>...</p>
+      <h3>새</h3>
+      <h3>포유류</h3>
+      <h2>식물</h2>
+      <h3>나무</h3>
+      <h3>풀</h3>
+    </div>
+  </div>
+</body>
+
+</html>

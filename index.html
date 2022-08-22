@@ -1,94 +1,187 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-<meta charset="utf-8">
-<title>Moglog - Table of Contents</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<style>
-.container pre {
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 9px;
-}
-.container hr{
-    margin-top: 1.725rem;
-    margin-bottom: 1.725rem;
-}
-html{overflow-x:hidden;overflow-y:scroll}body{overflow-x:hidden}
-</style>
+  <meta charset="utf-8">
+  <title>TOC Generator</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="./assets/page-common.css">
+  <link rel="stylesheet" href="./src/moglog.css">
 </head>
+
 <body>
   <div style="background-color:#628AC7;" class="py-5">
     <div class="container my-5">
-      <h1 class="display-2">Moglog</h1>
-      <p class="lead">Table of Contents, 목차 만드는 라이브러리</p>
-      <div>
-          <a href="https://github.com/exizt/moglog" class="badge badge-secondary" target="_blank">Github</a>&nbsp;
-          <a href="https://chosim.asv.kr" class="badge badge-secondary" target="_blank">website</a>&nbsp;
-          <a href="https://e2xist.tistory.com" class="badge badge-secondary" target="_blank">Blog</a>&nbsp;
-      </div>
+      <h1 class="display-2">TOC Demo</h1>
     </div>
   </div>
-  <div class="container mt-5">
-    <h2>예제</h2>
-    <a href="./test/sample-1.html">간단한 예제</a><br>
-    <a href="./test/sample-2.html">상단에 html 추가 예제</a><br>
-    <a href="./test/sample-3.html">tocIn (prepend), tocClass 예제</a><br>
-    <a href="./test/sample-callback.html">callback</a><br>
+  <div class="container">
+    <div id="main_section_toc">
+    </div>
   </div>
-  <div class="container mt-5">
-    <h2>옵션</h2>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">옵션명</th>
-          <th scope="col">유형</th>
-          <th scope="col">설명</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">toc</th>
-          <td>string</td>
-          <td>목차가 들어갈 곳의 Selector</td>
-        </tr>
-        <tr>
-          <th scope="row">tocIn</th>
-          <td>string</td>
-          <td><code>toc</code>옵션의 selector 영역에서 어디에 위치할 것인지. replace - 덮어씀/prepend - 앞부분에 추가/append - 뒷부분에 추가</td>
-        </tr>
-        <tr>
-          <th scope="row">tocClass</th>
-          <td>string</td>
-          <td>생성된 목차를 둘러싸는 부분에 추가할 필요가 있는 class명 (기본값: <code>empty string</code>)</td>
-        </tr>
-        <tr>
-          <th scope="row">contents</th>
-          <td>string</td>
-          <td>읽어들일 곳의 Selector</td>
-        </tr>
-        <tr>
-          <th scope="row">linkPrefix</th>
-          <td>string</td>
-          <td></td>
-        </tr>
-        <tr>
-          <th scope="row">header</th>
-          <td>string</td>
-          <td>목차의 앞부분에 붙일 필요가 있는 html (기본값: <code>empty string</code>)</td>
-        </tr>
-        <tr>
-          <th scope="row">callback</th>
-          <td>function</td>
-          <td>목차 생성후 실행될 함수 (기본값: 없음)</td>
-        </tr>
-        <tr>
-          <th scope="row">isDebug</th>
-          <td>boolean</td>
-          <td>디버깅 옵션 (기본값: <code>false</code>)</td>
-        </tr>
-      </tbody>
-    </table>
+  <script type="module">
+    import { Moglog } from './dist/moglog.js';
+    document.addEventListener("DOMContentLoaded", ()=> {
+      const moglog = new Moglog({
+        toc: "#main_section_toc",
+        contents: "body",
+        htags: "h1.main-title",
+        /*tocClass: "main-section-toc",*/
+        isDebug: true
+      })
+      moglog.build()
+    });
+  </script>
+  <hr>
+  <div class="container">
+    <h1 class="mb-3 main-title">간단한 예제</h1>
+    <h2>Code</h2>
+<pre>document.addEventListener("DOMContentLoaded",()=>{
+  const moglog = new Moglog({
+        toc:"#toc-1",
+        contents: "#content"
+    });
+    moglog.build()
+});</pre>
+    <h2>결과</h2>
+    <script type="module">
+      import { Moglog } from './dist/moglog.js';
+      document.addEventListener("DOMContentLoaded", ()=> {
+        const moglog = new Moglog({
+          toc: "#toc-1",
+          contents: "#content"
+        })
+        moglog.build()
+      });
+    </script>
+    <div id="toc-1">
+    </div>
+  </div>
+  <hr>
+  <div class="container">
+    <h1 class="mb-3 main-title">헤더 추가</h1>
+    <h2>Code</h2>
+<pre>document.addEventListener("DOMContentLoaded", ()=> {
+  const moglog = new Moglog({
+    toc: "#toc-2",
+    contents: "#content",
+    header: "&lt;h3&gt;목차&lt;h3&gt;"
+  })
+  moglog.build()
+});</pre>
+    <h2>결과</h2>
+    <script type="module">
+      import { Moglog } from './dist/moglog.js';
+      document.addEventListener("DOMContentLoaded", ()=> {
+        const moglog = new Moglog({
+          toc: "#toc-2",
+          contents: "#content",
+          header: "<h3>목차</h3>"
+        })
+        moglog.build()
+      });
+    </script>
+    <div id="toc-2">
+    </div>
+  </div>
+  <hr>
+  <div class="container">
+    <h1 class="mb-3 main-title">class를 추가할 때</h1>
+    <h2>Code</h2>
+<pre>document.addEventListener("DOMContentLoaded", ()=> {
+  const moglog = new Moglog({
+    toc: "#toc-3",
+    tocClass: "toc-abc",
+    contents: "#content"
+  })
+  moglog.build()
+});</pre>
+    <h2>결과</h2>
+    <script type="module">
+      import { Moglog } from './dist/moglog.js';
+      document.addEventListener("DOMContentLoaded", ()=> {
+        const moglog = new Moglog({
+          toc: "#toc-3",
+          tocClass: "toc-abc",
+          contents: "#content"
+        })
+        moglog.build()
+      });
+    </script>
+    <div id="toc-3">
+    </div>
+  </div>
+  <hr>
+  <div class="container">
+    <h1 class="mb-3 main-title">callback 이벤트</h1>
+    <h2>Code</h2>
+<pre>document.addEventListener("DOMContentLoaded", ()=> {
+  const moglog = new Moglog({
+    toc: "#toc_callback",
+    contents: "#content",
+    callback: (items) => {
+      if(items){
+        let html = ''
+        items.forEach((el, i) => {
+          html += `${el.text}&lt;br&gt;`
+        })
+        document.querySelector("#toc_callback_output").innerHTML = html
+      } else {
+        document.querySelector("#toc_callback_output").innerHTML = "결과가 없음"
+      }
+    }
+  })
+  moglog.build()
+});</pre>
+    <h2>결과</h2>
+    <script type="module">
+      import { Moglog } from './dist/moglog.js';
+      document.addEventListener("DOMContentLoaded", ()=> {
+        const moglog = new Moglog({
+          toc: "#toc_callback",
+          contents: "#content",
+          callback: (items) => {
+            if(items){
+              let html = ''
+              items.forEach((el, i) => {
+                html += `${el.text}<br>`
+              })
+              document.querySelector("#toc_callback_output").innerHTML = html
+            } else {
+              document.querySelector("#toc_callback_output").innerHTML = "결과가 없음"
+            }
+          }
+        })
+        moglog.build()
+      });
+    </script>
+    <div id="toc_callback">
+    </div>
+    <div id="toc_callback_output"></div>
+  </div>
+  <hr>
+  <div class="container">
+    <div class="content" id="content">
+      <h1>생물</h1>
+      <p>생물...</p>
+      <h2>동물</h2>
+      <h3>물고기</h3>
+      <p>...</p>
+      <h3>새</h3>
+      <h3>포유류</h3>
+      <h2>식물</h2>
+      <h3>나무</h3>
+      <h3>풀</h3>
+    </div>
+    <style>
+      .content {
+        height: 200px;
+        overflow-y: scroll;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 9px;
+      }
+    </style>
   </div>
 </html>
