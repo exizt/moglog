@@ -37,11 +37,11 @@ moglog.build()
 | :---                 | :---       | :---:                 |:---                |
 | `options.toc`        | `String`   | ''                    | 목차가 들어갈 곳의 Selector |
 | `options.contents`   | `String`   | ''                    | 읽어들일 곳의 Selector |
-| `options.htags`      | `String`   | `'h1,h2,h3,h4,h5,h6'` | 읽어들일 h태그 종류 (빈칸없이 순서대로 작성) |
-| `options.linkPrefix` | `String`   | ''                    | 링크에 붙게될 prefix |
 | `options.header`     | `String`   | ''                    | 목차의 앞부분에 붙일 필요가 있는 html |
+| `options.htags`      | `String`   | `'h1,h2,h3,h4,h5,h6'` | 읽어들일 h태그 종류 Selector |
+| `options.linkPrefix` | `String`   | ''                    | 링크에 붙게될 prefix |
+| `options.tocClass`   | `String`   | `'moglog-toc'`        | 생성된 목차를 둘러싸는 부분에 사용할 클래스명 |
 | `options.callback`   | `Function` | `null`                | 목차 생성후 실행될 함수 |
-| `options.tocClass`   | `String`   | ''                    | 생성된 목차를 둘러싸는 부분에 추가할 필요가 있는 class명 |
 | `options.position`   | `String`   | `'top'`               | `toc` 옵션에서 지정한 영역에서 어디에 위치할 지. <br>- `top` \| `prepend`  \| `before` : 상단에 위치<br>- `replace` : 덮어씀<br>- `bottom`  \| `append`  \| `after` : 뒤에 위치 |
 
 

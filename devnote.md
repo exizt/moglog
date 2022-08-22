@@ -61,6 +61,13 @@ $ npm install --save-dev shx
 
 <br><br>
 
+# ToDo
+- 여러 곳에 동시에 생성하는 방식의 구현 고민 중.. `toc` 옵션을 받고, `contents`옵션이 없을 경우에, `toc`이 여러개의 개체를 가질 경우에 동작하게 하거나, `multiple`같은 옵션을 별도로 받거나 해서 구현해야할 듯..
+
+
+
+<br><br>
+
 # release note
 작업중 (2022-08)
 - options 명칭 변경
