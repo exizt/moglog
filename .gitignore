@@ -1,10 +1,9 @@
-# OS 기타 파일들
+# trash files by os
 .DS_Store
 Thumbs.db
 
-# 패키징 관련
+# packages 
 /node_modules
 /vendor
 
-# 프로젝트 관련
-
+# project files
