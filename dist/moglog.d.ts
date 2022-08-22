@@ -1,17 +1,18 @@
 export declare class Moglog {
     private tocTarget;
     private contextTarget;
-    private anchorNamePrefix;
     private headHtml;
-    private tocIn;
-    private tocClassName;
     private htags;
+    private tocPosition;
+    private tocClassName;
+    private anchorNamePrefix;
     private _isDebug;
     private _callback;
     private _defaultOptions;
     constructor(options: IMoglogOptions);
     callback(args: any): void;
-    build(): boolean;
+    build(): void;
+    buildHtml(): boolean;
     buildTocHTMLText(tocItems: IMoglogItems[]): string;
     private prependElement;
     private appendElement;
@@ -19,9 +20,9 @@ export declare class Moglog {
 }
 interface IMoglogOptions {
     toc: string;
-    tocIn?: string;
-    tocClass?: string;
     contents: string;
+    position?: string;
+    tocClass?: string;
     htags?: string;
     linkPrefix?: string;
     header?: string;

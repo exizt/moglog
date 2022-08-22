@@ -1,27 +1,29 @@
 /**
- * Moglog v2.0.3
+ * Moglog
  * 
  * License : MIT
  *     Git : https://github.com/exizt/moglog
- *  Author : EXIzT
+ *  Author : exizt
  */
 export class Moglog {
     // toc가 생성될 selector
     private tocTarget: string
     // headings 태그와 분문을 읽어들일 타겟 selector. 여기에 링크가 넘어갈 태그도 생성됨.
     private contextTarget: string
-    private anchorNamePrefix: string
     // toc 위에 생성시킬 html
     private headHtml: string
-    private tocIn: string
-    private tocClassName: string
+    // 사용할 htags
     private htags: string
+    // toc이 tocTarget 내부에서 위치할 장소
+    private tocPosition: string
+    private tocClassName: string
+    private anchorNamePrefix: string
     private _isDebug: boolean
     private _callback: any
 
     private _defaultOptions: IMoglogOptions = {
         toc: '',
-        tocIn: 'replace',
+        position: 'top',
         tocClass: 's-toc',
         contents: '',
         linkPrefix: '',
@@ -44,7 +46,7 @@ export class Moglog {
         this.tocTarget = (opts.toc) ? opts.toc : this._defaultOptions.toc
 
         // toc 을 생성할 selector
-        this.tocIn = (opts.tocIn) ? opts.tocIn : this._defaultOptions.tocIn!
+        this.tocPosition = (opts.position) ? opts.position : this._defaultOptions.position!
 
         // contents 를 읽어들일 selector
         this.contextTarget = (opts.contents) ? opts.contents : this._defaultOptions.contents
@@ -79,33 +81,42 @@ export class Moglog {
     }
 
     /**
-     * toc 생성
+     * toc html 생성
      */
-    build() {
+    build(){
+        document.addEventListener("DOMContentLoaded", ()=> {
+            this.buildHtml()
+        })
+    }
+
+    /**
+     * toc html 생성 부분
+     */
+    buildHtml() {
         //console.log(this.tocTarget)
-        let tocContainer = document.querySelector(this.tocTarget) as HTMLElement
+        const tocContainer = document.querySelector(this.tocTarget) as HTMLElement
         if (!tocContainer) {
+            ///// toc이 생성될 요소가 없을 때 중지
             this.debugLog("toc target not found")
             this.callback(false)
             return false
         }
+        // toc을 생성할 div 엘리먼트 생성
         let toc = document.createElement("div")
         toc.setAttribute("class", this.tocClassName)
 
-        // tocIn 옵션에 따른 조금 다른 처리
-        if (this.tocIn == "prepend") {
-            this.prependElement(tocContainer, toc)
-            //tocContainer.insertAdjacentElement('afterbegin', toc)
-            // tocContainer.prepend(toc)
-        } else if (this.tocIn == "append") {
+        // tocPosition 옵션에 따른 조금 다른 처리
+        if (this.tocPosition == "append" || this.tocPosition == "bottom" || this.tocPosition == "after") {
             this.appendElement(tocContainer, toc)
-            // tocContainer.appendChild(toc)
-            // tocContainer.append(toc)
-        } else {
+        } else if (this.tocPosition == "replace") {
             tocContainer.innerHTML = ""
             this.appendElement(tocContainer, toc)
-            // tocContainer.prepend(toc)
-            //tocContainer.appendChild(toc)
+        } else if (this.tocPosition == "prepend" || this.tocPosition == "top" || this.tocPosition == "before") {
+            this.prependElement(tocContainer, toc)
+        } else {
+            this.debugLog("position option is not set.")
+            this.callback(false)
+            return false
         }
 
         // 과정을 살펴보기 위해서 도중에 '...'을 삽입
@@ -113,17 +124,16 @@ export class Moglog {
             toc.innerHTML = "..."
         }
 
-        // 콘텐츠 영역에서 h1~h6 을 읽어온다.
-        let sections
-        let contextEl = document.querySelector(this.contextTarget)
-        if (contextEl != null) {
-            // sections = contextEl.querySelectorAll("h1,h2,h3,h4,h5,h6")
-            sections = contextEl.querySelectorAll(this.htags)
-        } else {
+        // context 영역
+        const contextContainer = document.querySelector(this.contextTarget)
+        if(!contextContainer){
             this.debugLog("context target not found")
             this.callback(false)
             return false
         }
+        // context 영역에서 h1~h6 을 읽어온다.
+        const sections = contextContainer.querySelectorAll(this.htags)
+        // sections = contextContainer.querySelectorAll("h1,h2,h3,h4,h5,h6")
 
         // 목록 오브젝트 생성
         let tocItems: IMoglogItems[] = []
@@ -252,9 +262,9 @@ export class Moglog {
 
 interface IMoglogOptions {
     toc: string;
-    tocIn?: string;
-    tocClass?: string;
     contents: string;
+    position?: string;
+    tocClass?: string;
     htags?: string;
     linkPrefix?: string;
     header?: string;

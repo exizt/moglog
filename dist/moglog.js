@@ -2,7 +2,7 @@ export class Moglog {
     constructor(options) {
         this._defaultOptions = {
             toc: '',
-            tocIn: 'replace',
+            position: 'top',
             tocClass: 's-toc',
             contents: '',
             linkPrefix: '',
@@ -13,7 +13,7 @@ export class Moglog {
         };
         let opts = Object.assign(Object.assign({}, this._defaultOptions), options);
         this.tocTarget = (opts.toc) ? opts.toc : this._defaultOptions.toc;
-        this.tocIn = (opts.tocIn) ? opts.tocIn : this._defaultOptions.tocIn;
+        this.tocPosition = (opts.position) ? opts.position : this._defaultOptions.position;
         this.contextTarget = (opts.contents) ? opts.contents : this._defaultOptions.contents;
         this.anchorNamePrefix = (opts.linkPrefix) ? opts.linkPrefix : this._defaultOptions.linkPrefix;
         this.headHtml = (opts.header) ? opts.header : this._defaultOptions.header;
@@ -28,7 +28,12 @@ export class Moglog {
         }
     }
     build() {
-        let tocContainer = document.querySelector(this.tocTarget);
+        document.addEventListener("DOMContentLoaded", () => {
+            this.buildHtml();
+        });
+    }
+    buildHtml() {
+        const tocContainer = document.querySelector(this.tocTarget);
         if (!tocContainer) {
             this.debugLog("toc target not found");
             this.callback(false);
@@ -36,29 +41,31 @@ export class Moglog {
         }
         let toc = document.createElement("div");
         toc.setAttribute("class", this.tocClassName);
-        if (this.tocIn == "prepend") {
-            this.prependElement(tocContainer, toc);
-        }
-        else if (this.tocIn == "append") {
+        if (this.tocPosition == "append" || this.tocPosition == "bottom" || this.tocPosition == "after") {
             this.appendElement(tocContainer, toc);
         }
-        else {
+        else if (this.tocPosition == "replace") {
             tocContainer.innerHTML = "";
             this.appendElement(tocContainer, toc);
+        }
+        else if (this.tocPosition == "prepend" || this.tocPosition == "top" || this.tocPosition == "before") {
+            this.prependElement(tocContainer, toc);
+        }
+        else {
+            this.debugLog("position option is not set.");
+            this.callback(false);
+            return false;
         }
         if (this._isDebug) {
             toc.innerHTML = "...";
         }
-        let sections;
-        let contextEl = document.querySelector(this.contextTarget);
-        if (contextEl != null) {
-            sections = contextEl.querySelectorAll(this.htags);
-        }
-        else {
+        const contextContainer = document.querySelector(this.contextTarget);
+        if (!contextContainer) {
             this.debugLog("context target not found");
             this.callback(false);
             return false;
         }
+        const sections = contextContainer.querySelectorAll(this.htags);
         let tocItems = [];
         sections.forEach((_el, i) => {
             const el = _el;
