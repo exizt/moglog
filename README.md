@@ -17,6 +17,12 @@ Links
 </script>
 ```
 
+파일 목록
+* `dist/moglog.mix.js` : `css`를 포함한 `js`파일
+* `dist/moglog.js` : `css`를 제외한 `js`파일
+* `dist/moglog.css` : toc를 위한 styles
+
+
 ## npm, typescript에서 이용할 때
 npm 패키지 설치
 ```console
