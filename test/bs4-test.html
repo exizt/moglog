@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Moglog - Table of Contents</title>
+  <title>(bs4 테스트) Moglog - Table of Contents</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="../assets/page-common.css">
@@ -13,7 +13,7 @@
 <body>
   <div style="background-color:#628AC7;" class="py-5 mb-5">
     <div class="container my-5">
-      <h1 class="display-2">TOC</h1>
+      <h1 class="display-2">Moglog - Table of contents</h1>
       <p class="small">Bootstrap 4 연동 테스트</p>
     </div>
   </div>
@@ -22,24 +22,20 @@
     <h2>Code</h2>
     <pre>&lt;script type="module"&gt;
   import { Moglog } from '../dist/moglog.js';
-  document.addEventListener("DOMContentLoaded", () => {
-    const moglog = new Moglog({
-      toc: "#toc_first",
-      contents: "#content"
-    })
-    moglog.build()
-  });
+  const moglog = new Moglog({
+    toc: "#toc",
+    contents: "#content"
+  })
+  moglog.build()
 &lt;/script&gt;</pre>
     <h2>결과</h2>
     <script type="module">
       import { Moglog } from '../dist/moglog.js';
-      document.addEventListener("DOMContentLoaded", () => {
-        const moglog = new Moglog({
-          toc: "#toc_first",
-          contents: "#content"
-        })
-        moglog.build()
-      });
+      const moglog = new Moglog({
+        toc: "#toc_first",
+        contents: "#content"
+      })
+      moglog.build()
     </script>
     <div id="toc_first">
     </div>

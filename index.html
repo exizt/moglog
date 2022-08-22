@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>TOC Generator</title>
+  <title>Moglog - Table of contents Generator</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="./assets/page-common.css">
@@ -13,7 +13,7 @@
 <body>
   <div style="background-color:#628AC7;" class="py-5">
     <div class="container my-5">
-      <h1 class="display-2">TOC Demo</h1>
+      <h1 class="display-2">Moglog - Table of contents</h1>
     </div>
   </div>
   <div class="container">
@@ -22,7 +22,7 @@
   </div>
   <script type="module">
     import { Moglog } from './dist/moglog.js';
-    document.addEventListener("DOMContentLoaded", ()=> {
+    (()=>{
       const moglog = new Moglog({
         toc: "#main_section_toc",
         contents: "body",
@@ -31,121 +31,117 @@
         isDebug: true
       })
       moglog.build()
-    });
+    })()
   </script>
   <hr>
   <div class="container">
     <h1 class="mb-3 main-title">간단한 예제</h1>
     <h2>Code</h2>
-<pre>document.addEventListener("DOMContentLoaded",()=>{
-  const moglog = new Moglog({
-        toc:"#toc-1",
-        contents: "#content"
-    });
-    moglog.build()
-});</pre>
+<pre>const moglog = new Moglog({
+  toc:"#toc",
+  contents: "#content"
+});
+moglog.build()
+</pre>
     <h2>결과</h2>
     <script type="module">
       import { Moglog } from './dist/moglog.js';
-      document.addEventListener("DOMContentLoaded", ()=> {
+      (()=>{
         const moglog = new Moglog({
-          toc: "#toc-1",
+          toc: "#toc_first",
           contents: "#content"
         })
         moglog.build()
-      });
+      })()
     </script>
-    <div id="toc-1">
+    <div id="toc_first">
     </div>
   </div>
   <hr>
   <div class="container">
     <h1 class="mb-3 main-title">헤더 추가</h1>
     <h2>Code</h2>
-<pre>document.addEventListener("DOMContentLoaded", ()=> {
-  const moglog = new Moglog({
-    toc: "#toc-2",
-    contents: "#content",
-    header: "&lt;h3&gt;목차&lt;h3&gt;"
-  })
-  moglog.build()
-});</pre>
+<pre>const moglog = new Moglog({
+  toc: "#toc",
+  contents: "#content",
+  header: "&lt;h3&gt;목차&lt;h3&gt;"
+})
+moglog.build()
+</pre>
     <h2>결과</h2>
     <script type="module">
       import { Moglog } from './dist/moglog.js';
-      document.addEventListener("DOMContentLoaded", ()=> {
+      (()=>{
         const moglog = new Moglog({
-          toc: "#toc-2",
+          toc: "#toc_custom_header",
           contents: "#content",
           header: "<h3>목차</h3>"
         })
         moglog.build()
-      });
+      })()
     </script>
-    <div id="toc-2">
+    <div id="toc_custom_header">
     </div>
   </div>
   <hr>
   <div class="container">
-    <h1 class="mb-3 main-title">class를 추가할 때</h1>
+    <h1 class="mb-3 main-title">TOC의 class를 변경할 때</h1>
     <h2>Code</h2>
-<pre>document.addEventListener("DOMContentLoaded", ()=> {
-  const moglog = new Moglog({
-    toc: "#toc-3",
-    tocClass: "toc-abc",
-    contents: "#content"
-  })
-  moglog.build()
-});</pre>
+<pre>const moglog = new Moglog({
+  toc: "#toc",
+  tocClass: "toc-abc",
+  contents: "#content"
+})
+moglog.build()
+</pre>
     <h2>결과</h2>
     <script type="module">
       import { Moglog } from './dist/moglog.js';
-      document.addEventListener("DOMContentLoaded", ()=> {
+      (()=>{
         const moglog = new Moglog({
-          toc: "#toc-3",
+          toc: "#toc_change_class",
           tocClass: "toc-abc",
           contents: "#content"
         })
         moglog.build()
-      });
+      })()
     </script>
-    <div id="toc-3">
+    <div id="toc_change_class">
     </div>
   </div>
   <hr>
   <div class="container">
     <h1 class="mb-3 main-title">callback 이벤트</h1>
     <h2>Code</h2>
-<pre>document.addEventListener("DOMContentLoaded", ()=> {
-  const moglog = new Moglog({
-    toc: "#toc_callback",
-    contents: "#content",
-    callback: (items) => {
-      if(items){
-        let html = ''
-        items.forEach((el, i) => {
-          html += `${el.text}&lt;br&gt;`
-        })
-        document.querySelector("#toc_callback_output").innerHTML = html
-      } else {
-        document.querySelector("#toc_callback_output").innerHTML = "결과가 없음"
-      }
+<pre>const moglog = new Moglog({
+  toc: "#toc",
+  contents: "#content",
+  callback: (items) => {
+    if(items){
+      let html = 'output: '
+      items.forEach((el, i) => {
+        html += `${el.text}, `
+      })
+      document.querySelector("#toc_callback_output").innerHTML = html
+    } else {
+      document.querySelector("#toc_callback_output").innerHTML = "결과가 없음"
     }
-  })
-  moglog.build()
-});</pre>
+  }
+})
+moglog.build()
+</pre>
     <h2>결과</h2>
     <script type="module">
       import { Moglog } from './dist/moglog.js';
-      document.addEventListener("DOMContentLoaded", ()=> {
+      (()=>{
         const moglog = new Moglog({
           toc: "#toc_callback",
           contents: "#content",
           callback: (items) => {
             if(items){
-              let html = ''
+              let html = 'output: '
               items.forEach((el, i) => {
-                html += `${el.text}<br>`
+                html += `${el.text}, `
               })
               document.querySelector("#toc_callback_output").innerHTML = html
             } else {
@@ -154,7 +150,7 @@
           }
         })
         moglog.build()
-      });
+      })()
     </script>
     <div id="toc_callback">
     </div>

@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Moglog - Simple Example</title>
+  <title>(css mix 테스트) Moglog - Table of contents</title>
   <link rel="stylesheet" href="../assets/index.css">
   <link rel="stylesheet" href="../assets/page-common.css">
   <link rel="stylesheet" href="../src/moglog.css">
@@ -12,31 +12,27 @@
 <body>
   <div class="head-container-wrap">
     <div class="container">
-      <h1>TOC</h1>
-      <p>toc.mix.js (css+js compiled) 테스트</p>
+      <h1>Moglog - Table of contents</h1>
+      <p>moglog.mix.js (css+js compiled) 테스트</p>
     </div>
   </div>
   <div class="container">
     <h1>Code</h1>
     <pre>&lt;script type="module"&gt;
-  import { Moglog } from '../dist/moglog.js';
-  document.addEventListener("DOMContentLoaded", () => {
-    const moglog = new Moglog({
-      toc: "#toc_first",
-      contents: "#content"
-    })
-    moglog.build()
-  });
+  import { Moglog } from '../dist/moglog.mix.js';
+  const moglog = new Moglog({
+    toc: "#toc",
+    contents: "#content"
+  })
+  moglog.build()
 &lt;/script&gt;</pre>
     <script type="module">
-      import { Moglog } from '../dist/toc.mix.js';
-      document.addEventListener("DOMContentLoaded", () => {
-        const moglog = new Moglog({
-          toc: "#toc_first",
-          contents: "#content"
-        })
-        moglog.build()
-      });
+      import { Moglog } from '../dist/moglog.mix.js';
+      const moglog = new Moglog({
+        toc: "#toc_first",
+        contents: "#content"
+      })
+      moglog.build()
     </script>
     <div id="toc_first">
     </div>
