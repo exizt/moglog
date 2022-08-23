@@ -1,4 +1,9 @@
+# Enforce Unix newlines
 * text=auto eol=lf
+
+# Don't diff
 package-lock.json binary
+
+# ignore github repo languages
 *.js linguist-vendored
 *.html linguist-vendored
