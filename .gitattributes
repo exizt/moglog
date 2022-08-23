@@ -2,4 +2,3 @@
 package-lock.json binary
 *.js linguist-vendored
 *.html linguist-vendored
-*.md linguist-vendored
