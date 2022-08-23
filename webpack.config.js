@@ -3,7 +3,7 @@ const path = require("path");
 module.exports = {
   target: ['web', 'es2020'],
   entry: {
-    'moglog': path.resolve(__dirname, 'src/index.js')
+    'moglog': path.resolve(__dirname, 'src/index.ts')
   },
   output: {
     filename: '[name].mix.js',

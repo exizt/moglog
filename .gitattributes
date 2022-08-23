@@ -1,2 +1,4 @@
 package-lock.json binary
 * text=auto eol=lf
+*.js linguist-vendored
+*.html linguist-vendored
