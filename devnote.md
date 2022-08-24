@@ -9,9 +9,10 @@
 
 # 빌드
 - `npm run build` : tsc + webpack
-  - `npm run tsc` : moglog.ts -> moglog.js, moglog.d.ts
-  - `npm run webpack` : moglog.ts -> moglog.mix.js (js+css)
-- `npm run webpack.dev` : moglog.ts -> moglog.mix.js (js+css)(development mode)
+  - `npm run tsc` : ts -> js, d.ts
+  - `npm run webpack` : ts -> mix.js (css 포함)
+  - `npm run dist.css` : copy css to `/dist`
+- `npm run webpack.dev` : ts -> mix.js (dev 모드)
 
 
 
@@ -53,8 +54,7 @@ $ npm install --save-dev shx
 - `shx` : 파일 복사, 파일 삭제 등을 크로스플랫폼으로 스크립트 가능하게 해주는 기능
 
 ## 설정 파일
-1. `tsconfig.json`설정. 
-    - `npx tsc --init` 또는 파일을 복사해옴
+1. `tsconfig.json` : `npx tsc --init` 또는 파일을 복사해옴
 2. `webpack.config.js` 복사 후 설정.
 
 
@@ -69,7 +69,7 @@ $ npm install --save-dev shx
 <br><br>
 
 # release note
-작업중 (2022-08)
+3.1.x (2022-08)
 - options 명칭 변경
   * `options.tocIn` -> `options.position`
 - babel 제거 및 ie11 코드 제거, es5 지원 제거
