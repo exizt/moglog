@@ -1,6 +1,6 @@
 {
   "name": "exizt.moglog",
-  "version": "3.1.19",
+  "version": "3.2.20",
   "description": "",
   "author": "exizt",
   "license": "MIT",
@@ -15,10 +15,12 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm run tsc & npm run webpack & npm run dist.css",
+    "build": "npm run tsc && npm run webpack && npm run dist.css && npm run make.ghpages",
+    "build.dev": "npm run tsc & npm run dist.css &",
     "tsc": "tsc ./src/moglog.ts --outDir ./dist --target es2016 --declaration --removeComments",
     "webpack": "npx webpack --mode production",
     "webpack.dev": "npx webpack --mode development",
+    "make.ghpages": "shx cp -r index.html dist assets docs/",
     "dist.css": "shx cp ./src/css/moglog.css ./dist"
   },
   "devDependencies": {
