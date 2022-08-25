@@ -46,26 +46,15 @@ export class Moglog {
         // merge
         const opts = { ...this._defaultOptions, ...options }
         // 옵션값들의 유효성 확인 및 유효성 벗어날 경우 기본값으로 재지정
-        opts.toc = (typeof opts.toc === 'string') ? opts.toc : this._defaultOptions.toc
-        opts.contents = (typeof opts.contents === 'string') ? opts.contents : this._defaultOptions.contents
-        opts.header = (typeof opts.header === 'string') ? opts.header : this._defaultOptions.header
-        opts.htags = (typeof opts.htags === 'string') ? opts.htags : this._defaultOptions.htags
-        opts.position = (typeof opts.position === 'string') ? opts.position : this._defaultOptions.position
-        opts.tocClass = (typeof opts.tocClass === 'string') ? opts.tocClass : this._defaultOptions.tocClass
-        opts.linkPrefix = (typeof opts.linkPrefix === 'string') ? opts.linkPrefix : this._defaultOptions.linkPrefix
-        opts.callback = (typeof opts.callback === 'function') ? opts.callback : null
-        opts.isDebug = (!!opts.isDebug) ? true : false
-
-        // 옵션값을 멤버에 지정
-        this.tocTarget = opts.toc
-        this.contextTarget = opts.contents!
-        this.headHtml = opts.header!
-        this.htags = opts.htags!
-        this.tocPosition = opts.position!
-        this.tocClassName = opts.tocClass!
-        this.anchorNamePrefix = opts.linkPrefix!
-        this.callbackFunction = opts.callback!
-        this.isDebug = opts.isDebug!
+        this.tocTarget = (typeof opts.toc === 'string') ? opts.toc : this._defaultOptions.toc
+        this.contextTarget = (typeof opts.contents === 'string') ? opts.contents : this._defaultOptions.contents!
+        this.headHtml = (typeof opts.header === 'string') ? opts.header : this._defaultOptions.header!
+        this.htags = (typeof opts.htags === 'string') ? opts.htags : this._defaultOptions.htags!
+        this.tocPosition = (typeof opts.position === 'string') ? opts.position : this._defaultOptions.position!
+        this.tocClassName = (typeof opts.tocClass === 'string') ? opts.tocClass : this._defaultOptions.tocClass!
+        this.anchorNamePrefix = (typeof opts.linkPrefix === 'string') ? opts.linkPrefix : this._defaultOptions.linkPrefix!
+        this.callbackFunction = (typeof opts.callback === 'function') ? opts.callback : null
+        this.isDebug = (opts.isDebug === true) ? true : false
 
         // contents 옵션이 아예 없었던 경우는, toc과 같은 엘리먼트일 것으로 가정한다.
         if(typeof options.contents === 'undefined'){
@@ -74,28 +63,28 @@ export class Moglog {
     }
 
     /**
-     * 콜백 함수
-     * @param {object} args 
-     */
-    callback(args: any) {
-        if (typeof this.callbackFunction === "function") {
-            this.callbackFunction(args)
-        }
-    }
-
-    /**
      * toc html 생성
      */
-    build(){
+     build(){
         document.addEventListener("DOMContentLoaded", ()=> {
             this.buildHtml()
         })
     }
 
     /**
+     * 콜백 함수
+     * @param {object} args 
+     */
+    private callback(args: any) {
+        if (typeof this.callbackFunction === "function") {
+            this.callbackFunction(args)
+        }
+    }
+
+    /**
      * toc html 생성 부분
      */
-    buildHtml() {
+    private buildHtml() {
         //console.log(this.tocTarget)
         
         ///// toc을 생성할 container 탐색
@@ -187,7 +176,7 @@ export class Moglog {
      * 
      * @param {object}} tocTable 
      */
-    buildTocHTMLText(_items: IMoglogItems[]) {
+    private buildTocHTMLText(_items: IMoglogItems[]) {
         //console.log(tocTable)
         let currentCountings = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         let beforeLev = 1
@@ -260,20 +249,22 @@ export class Moglog {
         // parent.appendChild(child)
         // parent.append(child) // es6 
     }
-    
+
     /**
      * 디버깅 로그
-     * @param msg 디버깅 로그
+     * @param _args 디버깅 로그
      */
-     private debugLog(msg: any) {
-        if (this.isDebug) {
-            const tag = '[exizt.toc]'
-            if(typeof msg === 'object'){
-                console.log(tag + ' %o', msg)
+    private debugLog(..._args:any){
+        if (!this.isDebug) return
+        const tag = '[moglog]'
+        const args = _args.map((x: any) => {
+            if(typeof x === 'object'){
+                return JSON.parse(JSON.stringify(x))
             } else {
-                console.log(tag, msg)
+                return x
             }
-        }
+        })
+        console.log(tag, ...args)
     }
 }
 
