@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <title>Moglog - Table of contents Generator</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="./assets/page-common.css">
+  <link rel="stylesheet" href="./dist/moglog.css">
+</head>
+
+<body>
+  <div style="background-color:#628AC7;" class="py-5">
+    <div class="container my-5">
+      <h1 class="display-2">Moglog - Table of contents</h1>
+    </div>
+  </div>
+  <div class="container">
+    <div id="main_section_toc">
+    </div>
+  </div>
+  <script type="module">
+    import { Moglog } from './dist/moglog.js';
+    (()=>{
+      const moglog = new Moglog({
+        toc: "#main_section_toc",
+        contents: "body",
+        htags: "h1.main-title",
+        /*tocClass: "main-section-toc",*/
+        isDebug: true
+      })
+      moglog.build()
+    })()
+  </script>
+  <hr>
+  <div class="container">
+    <h1 class="mb-3 main-title">간단한 예제</h1>
+    <p>컨텐트영역과 toc영역이 다른 경우</p>
+    <h2>Code</h2>
+<pre>const moglog = new Moglog({
+  toc:"#toc",
+  contents: "#content"
+});
+moglog.build()
+</pre>
+    <h2>결과</h2>
+    <script type="module">
+      import { Moglog } from './dist/moglog.js';
+      (()=>{
+        const moglog = new Moglog({
+          toc: "#toc_first",
+          contents: "#content"
+        })
+        moglog.build()
+      })()
+    </script>
+    <div id="toc_first">
+    </div>
+  </div>
+  <hr>
+  <div class="container">
+    <h1 class="mb-3 main-title">컨텐트영역과 toc영역이 동일한 경우</h1>
+    <p>컨텐트영역과 toc영역이 동일한 경우. <code>content</code>옵션을 넣지 않는다. 
+      <br><code>position</code>옵션으로 위치를 조정할 수도 있다. <code>position:bottom</code>옵션을 사용하면 하단에 위치하게 할 수도 있다.</p>
+    <h2>Code</h2>
+<pre>const moglog = new Moglog({
+  toc:"#content"
+});
+moglog.build()
+</pre>
+    <h2>결과</h2>
+    <script type="module">
+      import { Moglog } from './dist/moglog.js';
+      (()=>{
+        const moglog = new Moglog({
+          toc: "#content_toc"
+        })
+        moglog.build()
+      })()
+    </script>
+    <div id="content_toc" class="content">
+      <h1>A</h1>
+      <h1>B</h1>
+    </div>
+    <br>
+    <h2>하단에 위치시킬 때</h2>
+    <h2>Code</h2>
+    <pre>const moglog = new Moglog({
+  toc:"#content",
+  position: "bottom"
+});
+moglog.build()
+</pre>
+    <h2>결과</h2>
+    <script type="module">
+      import { Moglog } from './dist/moglog.js';
+      (()=>{
+        const moglog = new Moglog({
+          toc: "#content_toc_bottom",
+          position: "bottom"
+        })
+        moglog.build()
+      })()
+    </script>
+    <div id="content_toc_bottom" class="content">
+      <h1>A</h1>
+      <h1>B</h1>
+    </div>
+
+  </div>
+  <hr>
+  <div class="container">
+    <h1 class="mb-3 main-title">헤더 추가</h1>
+    <h2>Code</h2>
+<pre>const moglog = new Moglog({
+  toc: "#toc",
+  contents: "#content",
+  header: "&lt;h3&gt;목차&lt;h3&gt;"
+})
+moglog.build()
+</pre>
+    <h2>결과</h2>
+    <script type="module">
+      import { Moglog } from './dist/moglog.js';
+      (()=>{
+        const moglog = new Moglog({
+          toc: "#toc_custom_header",
+          contents: "#content",
+          header: "<h3>목차</h3>"
+        })
+        moglog.build()
+      })()
+    </script>
+    <div id="toc_custom_header">
+    </div>
+  </div>
+  <hr>
+  <div class="container">
+    <h1 class="mb-3 main-title">TOC의 class를 변경할 때</h1>
+    <h2>Code</h2>
+<pre>const moglog = new Moglog({
+  toc: "#toc",
+  tocClass: "toc-abc",
+  contents: "#content"
+})
+moglog.build()
+</pre>
+    <h2>결과</h2>
+    <script type="module">
+      import { Moglog } from './dist/moglog.js';
+      (()=>{
+        const moglog = new Moglog({
+          toc: "#toc_change_class",
+          tocClass: "toc-abc",
+          contents: "#content"
+        })
+        moglog.build()
+      })()
+    </script>
+    <div id="toc_change_class">
+    </div>
+  </div>
+  <hr>
+  <div class="container">
+    <h1 class="mb-3 main-title">callback 이벤트</h1>
+    <h2>Code</h2>
+<pre>const moglog = new Moglog({
+  toc: "#toc",
+  contents: "#content",
+  callback: (items) => {
+    if(items){
+      let text = 'output: '
+      items.forEach((el, i) => {
+        text += `${el.text}, `
+      })
+      document.querySelector("#toc_callback_output").textContent = text
+    } else {
+      document.querySelector("#toc_callback_output").textContent = "결과가 없음"
+    }
+  }
+})
+moglog.build()
+</pre>
+    <h2>결과</h2>
+    <script type="module">
+      import { Moglog } from './dist/moglog.js';
+      (()=>{
+        const moglog = new Moglog({
+          toc: "#toc_callback",
+          contents: "#content",
+          callback: (items) => {
+            if(items){
+              let text = 'output: '
+              items.forEach((el, i) => {
+                text += `${el.text}, `
+              })
+              document.querySelector("#toc_callback_output").textContent = text
+            } else {
+              document.querySelector("#toc_callback_output").textContent = "결과가 없음"
+            }
+          }
+        })
+        moglog.build()
+      })()
+    </script>
+    <div id="toc_callback">
+    </div>
+    <div id="toc_callback_output"></div>
+  </div>
+  <hr>
+  <div class="container">
+    <div class="content" id="content">
+      <h1>생물</h1>
+      <p>생물...</p>
+      <h2>동물</h2>
+      <h3>물고기</h3>
+      <p>...</p>
+      <h3>새</h3>
+      <h3>포유류</h3>
+      <h2>식물</h2>
+      <h3>나무</h3>
+      <h3>풀</h3>
+    </div>
+    <style>
+      .content {
+        height: 200px;
+        overflow-y: scroll;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 9px;
+      }
+    </style>
+  </div>
+</html>
