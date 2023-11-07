@@ -1,4 +1,4 @@
-# 개발 관련 노트
+# Development Notes
 
 가끔식 해줄 일
 - `npm update` : 의존성 업데이트 및 `package-lock.json` 갱신.
@@ -7,22 +7,35 @@
 
 <br><br>
 
-# 빌드
+## Setup
+```shell
+# git clone
+git clone git@github.com:exizt/moglog.git
+
+# node_modules created and TypeScript environment configured.
+npm install
+```
+
+
+
+<br><br>
+
+## Build
 - `npm run build` : tsc + webpack
-  - `npm run tsc` : ts -> js, d.ts
-  - `npm run webpack` : ts -> mix.js (css 포함)
-  - `npm run dist.css` : copy css to `/dist`
+    - `npm run tsc` : ts -> js, d.ts
+    - `npm run webpack` : ts -> mix.js (css 포함)
+    - `npm run dist.css` : copy css to `/dist`
 - `npm run webpack.dev` : ts -> mix.js (dev 모드)
 
 
 
 <br><br>
 
-# 버저닝 규칙
-버저닝 규칙 (`'{major}.{minor}.{build}'`)
-1. `major` : 큰 변경. 이전 버전과의 호환성이 아예 없음.
-2. `minor` : ts 코드에 사소한 변경. 평범한 코드 변경.
-3. `build` : (누적 카운팅) 의존성 변경, 환경 변경으로 인한 업데이트. 또는 빌드. 그냥 소소하게 누적 카운팅.
+## Versioning
+- rules: `{major}.{minor}.{build}`
+    - `major` : Major changes. No compatibility with previous versions at all.
+    - `minor` : Minor code changes.
+    - `build` : Updates or builds due to changes in dependencies, environment modifications, or cumulative counting. Just cumulative counting.
 
 
 버전 변경 시 같이 작업할 사항
@@ -32,20 +45,13 @@
 
 <br><br>
 
-# 프로젝트 셋팅
-1. `npm install` : `node_modules` 생성 및 타입스크립트 환경 구성됨.
-
-
-
-<br><br>
-
-# 프로젝트 구성 과정에서의 히스토리
-## npm 셋팅
-```console
-$ npm install --save-dev typescript
-$ npm install --save-dev webpack webpack-cli ts-loader
-$ npm install --save-dev style-loader css-loader
-$ npm install --save-dev shx
+## Project creation log
+### Dependencies configuration
+```shell
+npm install --save-dev typescript
+npm install --save-dev webpack webpack-cli ts-loader
+npm install --save-dev style-loader css-loader
+npm install --save-dev shx
 ```
 - `typescript` : 타입스크립트 기능
 - `webpack`, `webpack-cli` : 웹팩 및 웹팩 cli
@@ -53,10 +59,10 @@ $ npm install --save-dev shx
 - `style-loader`, `css-loader` : css파일을 병합하기 위한 웹팩 로더
 - `shx` : 파일 복사, 파일 삭제 등을 크로스플랫폼으로 스크립트 가능하게 해주는 기능
 
-## 설정 파일
+
+### config files
 1. `tsconfig.json` : `npx tsc --init` 또는 파일을 복사해옴
 2. `webpack.config.js` 복사 후 설정.
-
 
 
 <br><br>
@@ -68,21 +74,21 @@ $ npm install --save-dev shx
 
 <br><br>
 
-# release note
+# Release notes
 3.1.x (2022-08)
 - options 명칭 변경
-  * `options.tocIn` -> `options.position`
+    - `options.tocIn` -> `options.position`
 - babel 제거 및 ie11 코드 제거, es5 지원 제거
 
 
 2.0.3 (2021-06)
 - typescript 로 전환
 - options 명칭 변경
-  * `target` -> `toc`
-  * `prependHtml` -> `header`
-  * `targetIn` -> toc + tocIn "end"
-  * `tocClassName` -> `tocClass`
-  * `anchorNamePrefix` -> `linkPrefix`
+    - `target` -> `toc`
+    - `prependHtml` -> `header`
+    - `targetIn` -> toc + tocIn "end"
+    - `tocClassName` -> `tocClass`
+    - `anchorNamePrefix` -> `linkPrefix`
 
 
 1.0.4 (2019-12)

@@ -3,7 +3,7 @@
 
 
 Links
-* Git : https://github.com/exizt/moglog
+* https://github.com/exizt/moglog
 * Demo : https://exizt.github.io/moglog/
 
 
