@@ -5,5 +5,4 @@
 package-lock.json text -diff
 
 # ignore github repo languages
-*.js linguist-vendored
 *.html linguist-vendored
