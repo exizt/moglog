@@ -3,12 +3,16 @@
 
 
 Links
-* https://github.com/exizt/moglog
-* Demo : https://exizt.github.io/moglog/
+* GitHub: https://github.com/exizt/moglog
+* Demo: https://exizt.github.io/moglog/
+* npm: https://www.npmjs.com/package/exizt.moglog
 
 
-# Usage
-## 기본적인 사용법 (html에서)
+
+## Usage
+### html
+1. 소스 파일을 다운로드 받고, 다음의 코드 삽입.
+
 ```html
 <script type="module">
     import { Moglog } from './dist/moglog.mix.js';
@@ -23,13 +27,25 @@ Links
 * `dist/moglog.css` : toc를 위한 styles
 
 
-## npm, typescript에서 이용할 때
-npm 패키지 설치
-```console
-
+#### using CDN
+```html
+<script type="module">
+import { Moglog } from 'https://cdn.jsdelivr.net/gh/exizt/moglog@main/dist/moglog.mix.js'
+const moglog = new Moglog({
+    toc: ".contents_style",
+    header: "<span class='title'>Table of Contents</span>"
+})
+moglog.build()
+</script>
 ```
 
-ts 파일에서
+### using npm
+npm 패키지 설치
+```shell
+npm i exizt.moglog
+```
+
+
 ```ts
 import { Moglog } from 'exizt.moglog'
 const moglog = new Moglog({
@@ -38,7 +54,8 @@ const moglog = new Moglog({
 moglog.build()
 ```
 
-# Options
+## Customize
+### Options
 | name                 | type       | default               | description        |
 | :---                 | :---       | :---:                 |:---                |
 | `options.toc`        | `String`   | ''                    | 목차가 들어갈 곳의 Selector |
@@ -51,8 +68,8 @@ moglog.build()
 | `options.position`   | `String`   | `'top'`               | `toc` 옵션에서 지정한 영역에서 어디에 위치할 지. <br>- `top` \| `prepend`  \| `before` : 상단에 위치<br>- `replace` : 덮어씀<br>- `bottom`  \| `append`  \| `after` : 뒤에 위치 |
 
 
-# 사용법 상세
-## 간단한 예제
+### how to use
+#### 간단한 예제
 ```js
 const moglog = new Moglog({
   toc:"#toc",
@@ -61,20 +78,20 @@ const moglog = new Moglog({
 moglog.build()
 ```
 
-## 헤더에 태그를 추가
+#### 헤더에 태그를 추가
 ```js
 const moglog = new Moglog({
   toc: "#toc",
   contents: "#content",
-  header: "<h3>목차<h3>"
+  header: "<h3>Table of Contents<h3>"
 })
 moglog.build()
 ```
 
 
-# 브라우저 지원
+## 브라우저 지원
 ie11 미지원
 
 
-# LICENSE
+## LICENSE
 [MIT](LICENSE)
