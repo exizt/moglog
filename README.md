@@ -91,7 +91,3 @@ moglog.build()
 
 ## 브라우저 지원
 ie11 미지원
-
-
-## LICENSE
-[MIT](LICENSE)
